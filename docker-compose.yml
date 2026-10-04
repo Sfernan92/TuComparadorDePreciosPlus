@@ -37,7 +37,7 @@ services:
   db:
     image: postgres:13
     container_name: stronova_postgres
-    restart: always
+    restart: no
     environment:
       POSTGRES_USER: stronova_user
       POSTGRES_PASSWORD: stronova_password
@@ -65,7 +65,7 @@ services:
       - backend
     ports:
       - "4200:4200"
-    command: ["sh", "-c", "npm install && ng serve --host 0.0.0.0 --poll 2000 --watch"]
+    command: ["sh", "-c", "npm ci && npx ng serve --host 0.0.0.0 --poll 2000 --watch"]
 
 
 volumes:
