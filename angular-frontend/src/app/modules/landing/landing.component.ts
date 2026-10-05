@@ -75,7 +75,7 @@ ngOnInit(): void {
     const categoria = item.categoria || item.categoria_nombre || item.categoria;
     const producto = item.producto_nombre;
     const supermercado = item.supermercado_nombre;
-    const precio = item.precio;
+    const precio = Number(item.precio);
 
     if (!this.categorias.includes(categoria)) this.categorias.push(categoria);
     if (!this.supermercados.includes(supermercado)) this.supermercados.push(supermercado);

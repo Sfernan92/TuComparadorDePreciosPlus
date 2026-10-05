@@ -55,7 +55,7 @@ class PreciosController extends AbstractController
 
         // Asignar los valores recibidos (valida antes si quieres)
         if (isset($data['precio'])) {
-            $precio->setPrecio($data['precio']);
+            $precio->setPrecio((string) $data['precio']);
         } else {
             return new JsonResponse(['error' => 'El campo precio es obligatorio'], 400);
         }
@@ -85,7 +85,7 @@ class PreciosController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (isset($data['precio'])) {
-            $precio->setPrecio($data['precio']);
+            $precio->setPrecio((string) $data['precio']);
         }
 
         $em->flush();

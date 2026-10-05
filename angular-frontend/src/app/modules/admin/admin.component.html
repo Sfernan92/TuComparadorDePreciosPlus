@@ -211,7 +211,7 @@
     <div class="bg-white rounded-lg p-6 w-80 shadow-lg">
       <h3 class="text-xl font-semibold mb-4 text-[#006D77]">Editar Precio</h3>
       <input [value]="productoPrecioEditando.producto_nombre" class="border p-2 rounded w-full mb-2 bg-gray-100" readonly/>
-      <input [(ngModel)]="productoPrecioEditando.precio" type="number" class="border p-2 rounded w-full mb-4" placeholder="Precio (€)"/>
+      <input [(ngModel)]="productoPrecioEditando.precio" type="number" step="0.01" min="0" class="border p-2 rounded w-full mb-4" placeholder="Precio (€)"/>
       <div class="flex justify-end gap-2">
         <button (click)="guardarEdicionPrecio()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">Guardar</button>
         <button (click)="cancelarEdicionPrecio()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Cancelar</button>
@@ -231,7 +231,7 @@
     <option *ngFor="let s of supermercados" [value]="s.id">{{ s.nombre }}</option>
   </select>
 
-  <input [(ngModel)]="nuevoPrecioProducto.precio" type="number" placeholder="Precio" class="border p-2 rounded w-full" />
+  <input [(ngModel)]="nuevoPrecioProducto.precio" type="number" step="0.01" min="0" placeholder="Precio" class="border p-2 rounded w-full" />
   <button (click)="agregarProductoConPrecio()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">Añadir</button>
 </div>
   

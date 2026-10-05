@@ -21,8 +21,8 @@ class Precios
     #[ORM\JoinColumn(nullable: false)]
     private Supermercados $supermercado;
 
-    #[ORM\Column]
-    private ?int $precio = null;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    private ?string $precio = null;
 
     public function getId(): ?int
     {
@@ -53,15 +53,15 @@ class Precios
         return $this;
     }
 
-    public function getPrecio(): ?int
+    public function getPrecio(): ?string
     {
         return $this->precio;
     }
 
-    public function setPrecio(int $precio): static
+    public function setPrecio(string $precio): static
     {
         $this->precio = $precio;
 
-        return $this;
+     return $this;
     }
 }
