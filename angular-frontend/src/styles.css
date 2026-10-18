@@ -1,2 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+
+:root {
+  --color-principal: #007d82;
+  --color-principal-oscuro: #064d5a;
+  --color-acento: #ff715f;
+  --color-texto: #10145c;
+  --color-texto-suave: #7183a8;
+  --color-fondo: #f8fbf8;
+  --color-tarjeta: #ffffff;
+  --color-borde: #e6eef0;
+
+  --sombra-tarjeta: 0 12px 30px rgba(6, 77, 90, 0.09);
+  --radio-tarjeta: 22px;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--color-texto);
+  background:
+    radial-gradient(circle at top left, rgba(225, 247, 239, 0.8), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(255, 230, 209, 0.55), transparent 30%),
+    var(--color-fondo);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Etiquetas de categoría de la tabla "Productos elegidos". */
+.categoria-etiqueta {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.categoria-verduras { background: #dcfce7; color: #15803d; }
+.categoria-frutas { background: #fef3c7; color: #b45309; }
+.categoria-lacteos { background: #dbeafe; color: #2563eb; }
+.categoria-congelados { background: #e0f2fe; color: #0369a1; }
+.categoria-frutos-secos { background: #ffedd5; color: #c2410c; }
+.categoria-bebidas { background: #cffafe; color: #0f766e; }
+.categoria-despensa { background: #ffedd5; color: #9a3412; }
+.categoria-huevos { background: #ffe4e6; color: #e11d48; }
+.categoria-neutra { background: #f1f5f9; color: #475569; }
