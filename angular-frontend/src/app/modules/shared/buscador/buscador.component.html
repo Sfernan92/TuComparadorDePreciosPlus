@@ -1,36 +1,58 @@
-<div class="relative w-full">
-  <!-- Icono visual de búsqueda -->
-  <span
-    class="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-xl text-[var(--color-principal)]"
-    aria-hidden="true">
-    ⌕
-  </span>
+<!-- Componente completo de búsqueda y añadido de productos -->
+<div class="w-full">
 
-  <!-- Campo donde el usuario escribe -->
-  <input
-    type="text"
-    placeholder="Buscar productos (Tomates, Leche, Plátanos...)"
-    [(ngModel)]="terminoBusqueda"
-    class="w-full rounded-full border border-[var(--color-borde)] bg-white py-4 pl-14 pr-6 text-[var(--color-texto)] shadow-lg outline-none transition focus:border-[var(--color-principal)] focus:ring-4 focus:ring-[#007d82]/10" />
+  <!-- Buscador y botón: en móvil van uno debajo de otro; en ordenador, en una fila -->
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
 
-  <!-- Sugerencias que ya generaba el componente -->
-  <div
-    *ngIf="terminoBusqueda.trim() !== ''"
-    class="absolute left-0 top-full z-50 mt-3 w-full rounded-2xl bg-white p-3 text-left shadow-xl">
+    <!-- Zona del buscador. Es relativa para que las sugerencias se coloquen debajo. -->
+    <div class="relative min-w-0 flex-1">
 
-    <ul *ngIf="obtenerAlimentosFiltrados().length > 0; else sinResultados">
-      <li
-        *ngFor="let alimento of obtenerAlimentosFiltrados()"
-        (click)="seleccionarAlimento(alimento.id)"
-        class="cursor-pointer rounded-xl px-4 py-3 text-base text-[var(--color-texto)] transition hover:bg-[#eef9f5]">
-        {{ alimento.nombre }}
-      </li>
-    </ul>
+      <!-- Icono decorativo de búsqueda -->
+      <span
+        class="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-xl text-[var(--color-principal)]"
+        aria-hidden="true">
+        ⌕
+      </span>
 
-    <ng-template #sinResultados>
-      <p class="px-4 py-3 text-sm text-[var(--color-texto-suave)]">
-        No se encontraron alimentos.
-      </p>
-    </ng-template>
+      <!-- Campo de texto unido a terminoBusqueda -->
+      <input
+        type="text"
+        placeholder="Buscar productos (Tomates, Leche, Plátanos...)"
+        [(ngModel)]="terminoBusqueda"
+        (input)="alimentoSeleccionado = null"
+        class="w-full rounded-full border border-[var(--color-borde)] bg-white py-4 pl-14 pr-6 text-[var(--color-texto)] shadow-lg outline-none transition focus:border-[var(--color-principal)] focus:ring-4 focus:ring-[#007d82]/10" />
+
+      <!-- Sugerencias: solo aparecen mientras escribes y no has escogido una -->
+      <div
+        *ngIf="terminoBusqueda.trim() !== '' && alimentoSeleccionado === null"
+        class="absolute left-0 top-full z-50 mt-3 w-full rounded-2xl bg-white p-3 text-left shadow-xl">
+
+        <ul *ngIf="obtenerAlimentosFiltrados().length > 0; else sinResultados">
+          <li
+            *ngFor="let alimento of obtenerAlimentosFiltrados()"
+            (click)="prepararAlimento(alimento)"
+            class="cursor-pointer rounded-xl px-4 py-3 text-base text-[var(--color-texto)] transition hover:bg-[#eef9f5]">
+            {{ alimento.nombre }}
+          </li>
+        </ul>
+
+        <ng-template #sinResultados>
+          <p class="px-4 py-3 text-sm text-[var(--color-texto-suave)]">
+            No se encontraron alimentos.
+          </p>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Solo se activa tras seleccionar un producto de las sugerencias -->
+    <button
+      type="button"
+      (click)="anadirAlimentoSeleccionado()"
+      [disabled]="alimentoSeleccionado === null"
+      class="shrink-0 rounded-full bg-[var(--color-acento)] px-7 py-4 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e95f50] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50">
+      Añadir producto
+    </button>
+
   </div>
+  
 </div>
