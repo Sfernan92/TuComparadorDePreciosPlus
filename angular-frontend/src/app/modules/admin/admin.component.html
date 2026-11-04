@@ -3,8 +3,9 @@
 <div class="min-h-screen bg-[#f7fbf9]">
 
   <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-    <section>
+    <section class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
       <div><h1 class="text-4xl font-extrabold tracking-tight text-[var(--color-principal-oscuro)] sm:text-5xl">Panel de administración</h1><p class="mt-3 text-lg text-[var(--color-texto-suave)]">Un espacio distinto, reservado para gestionar los datos de DonTacaño.</p></div>
+      <button type="button" (click)="cerrarSesion()" class="rounded-full bg-[var(--color-acento)] px-6 py-4 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e95f50] hover:shadow-xl">Cerrar sesión</button>
     </section>
 
     <div class="admin-layout mt-8">

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { AuthService } from '../services/auth.service';
 
 type PestanaAdmin = 'resumen' | 'categorias' | 'supermercados' | 'productos' | 'precios';
 
@@ -51,7 +52,12 @@ export class AdminComponent implements OnInit {
   private apiUrl = 'http://localhost:8000/categorias';
   private productosPrecioApiUrl = 'http://localhost:8000/productos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  // El cierre de sesión se mantiene dentro del área privada.
+  cerrarSesion(): void {
+    this.authService.cerrarSesion();
+  }
 
   ngOnInit(): void {
     this.cargarCategorias();

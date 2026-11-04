@@ -14,9 +14,19 @@
       <a routerLink="/comparar" class="font-semibold text-[var(--color-principal-oscuro)] transition hover:text-[var(--color-principal)]">
         Comparar
       </a>
-      <a routerLink="/login" class="rounded-full bg-[var(--color-acento)] px-7 py-4 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e95f50] hover:shadow-xl">
-        Acceso admin
-      </a>
+      <!-- async se suscribe al estado del servicio y actualiza el botón automáticamente. -->
+      <ng-container *ngIf="sesionIniciada$ | async; else accesoAdmin">
+        <a routerLink="/admin" class="rounded-full bg-[var(--color-acento)] px-7 py-4 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e95f50] hover:shadow-xl">
+          Panel administrador
+        </a>
+      </ng-container>
+
+      <!-- Se muestra únicamente cuando no existe una sesión guardada. -->
+      <ng-template #accesoAdmin>
+        <a routerLink="/login" class="rounded-full bg-[var(--color-acento)] px-7 py-4 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e95f50] hover:shadow-xl">
+          Acceso admin
+        </a>
+      </ng-template>
 
     </div>
   </div>

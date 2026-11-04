@@ -32,8 +32,8 @@ export class LoginComponent {
 
   this.authService.login(this.email, this.password).subscribe({
     next: (response) => {
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      // AuthService se encarga de guardar los datos y de avisar al navbar.
+      this.authService.guardarSesion(response);
       this.router.navigate(['/admin']);
     },
     error: (error) => {
