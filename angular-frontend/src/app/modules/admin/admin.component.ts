@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
+type PestanaAdmin = 'resumen' | 'categorias' | 'supermercados' | 'productos' | 'precios';
+
 @Component({
   selector: 'app-admin',
   standalone: true,
@@ -12,6 +14,14 @@ import { RouterModule } from '@angular/router';
 })
 
 export class AdminComponent implements OnInit {
+    // Controla qué sección del administrador se muestra en pantalla.
+  pestanaActiva: PestanaAdmin = 'resumen';
+
+  // Recibe una pestaña y la convierte en la sección visible.
+  seleccionarPestana(pestana: PestanaAdmin): void {
+    this.pestanaActiva = pestana;
+  }
+  
   categorias: any[] = []; 
   nuevoProducto = { nombre: '', marca: '' , categoria_id: -1};
   errorProducto = false;
@@ -260,6 +270,15 @@ getNombreCategoria(idCategoria: number): string {
   const categoria = this.categorias.find(cat => cat.id === idCategoria);
   return categoria ? categoria.nombre : 'Sin categoría';
 }
+
+  // Datos de apoyo para la vista de resumen; no modifican ningún registro.
+  getProductosRecientes(): any[] {
+    return this.productos.slice(0, 3);
+  }
+
+  contarPreciosProducto(productoId: number): number {
+    return this.productosConPrecio.filter(precio => precio.producto_id === productoId).length;
+  }
 
 cargarProductosConPrecio() {
   this.http.get<any[]>('http://localhost:8000/precios').subscribe({

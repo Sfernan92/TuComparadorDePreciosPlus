@@ -51,3 +51,33 @@ body {
 .categoria-despensa { background: #ffedd5; color: #9a3412; }
 .categoria-huevos { background: #ffe4e6; color: #e11d48; }
 .categoria-neutra { background: #f1f5f9; color: #475569; }
+
+/* Estructura del panel de administración: menú lateral y área de contenido. */
+.admin-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 1.5rem;
+}
+
+.admin-sidebar-links {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.admin-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .admin-layout {
+    grid-template-columns: 294px minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .admin-summary-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

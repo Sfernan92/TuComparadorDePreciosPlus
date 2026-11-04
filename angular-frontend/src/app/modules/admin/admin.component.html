@@ -1,240 +1,71 @@
-<a routerLink="/" class="fixed top-4 left-4 bg-[#E29578] text-white py-2 px-4 rounded-lg hover:bg-[#D17A61] transition z-50">
-  Volver a inicio
-</a>
-
-<a routerLink="/" class="fixed top-16 left-4 bg-[#E29578] text-white py-2 px-4 rounded-lg hover:bg-[#D17A61] transition z-50">
-  Cerrar Sesión
-</a>
-
-<div class="min-h-screen bg-[#EDF6F9] p-8 lg:px-70">
-  <div class="max-w-6x1 mx-auto">
-  <h1 class="text-4xl font-bold text-center text-[#006D77] mb-8">Panel de Administración</h1>
-  <!-- Categorias -->
-  <div class="mb-12">
-  <h2 class="text-3xl font-semibold text-center text-[#E29578] mb-4">Categorías</h2>
-  <table class="bg-white w-full overflow-hidden text-left rounded-lg shadow-lg mb-4">
-    <thead class="bg-[#83C5BE] text-white">
-      <tr>
-        <th class="p-2">Nombre</th>
-        <th class="p-2">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let categoria of categorias">
-        <td class="p-2 align-middle min-h-[48px]">{{ categoria.nombre }}</td>
-        <td class="p-2 align-middle min-h-[48px]">
-          <button (click)="abrirPopupEditar(categoria)"
-            class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 mr-5">
-              Editar
-          </button>
-          <button (click)="eliminarCategoria(categoria.id)"
-            class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 mr-5">
-              Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-<div *ngIf="categoriaEditando" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-  <div class="bg-white rounded-lg p-6 w-80 shadow-lg">
-    <h3 class="text-xl font-semibold mb-4 text-[#006D77]">Editar Categoría</h3>
-    <input [(ngModel)]="categoriaEditando.nombre" type="text" class="border p-2 rounded w-full mb-4" placeholder="Nombre de la categoría"/>
-    <div class="flex justify-end gap-2">
-      <button (click)="guardarEdicion()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">
-        Guardar
-      </button>
-      <button (click)="cancelarEdicion()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
-        Cancelar
-      </button>
+<div class="min-h-screen bg-[#f7fbf9]">
+  <header class="border-b border-[var(--color-borde)] bg-white/90 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6">
+      <a routerLink="/" class="flex items-center gap-3"><img src="misseurosinfondo.png" alt="Logotipo DonTacaño" class="object-contain" style="width: 44px; height: 44px; flex: none;" /><span class="text-2xl font-extrabold text-[var(--color-principal)]">DonTacaño</span></a>
+      <nav class="flex items-center gap-5 text-sm font-bold text-[var(--color-principal-oscuro)] sm:text-base" aria-label="Navegación principal"><a routerLink="/" class="transition hover:text-[var(--color-principal)]">Inicio</a><a routerLink="/comparar" class="transition hover:text-[var(--color-principal)]">Comparar</a><a routerLink="/" class="rounded-full bg-[var(--color-acento)] px-5 py-3 text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#e95f50]">Cerrar sesión</a></nav>
     </div>
-  </div>
-</div>
-  <div class="flex gap-4 mb-2">
-  <input [(ngModel)]="nuevaCategoria.nombre" placeholder="Nombre de la categoría" class="border p-2 rounded w-full"/>
-  <button (click)="agregarCategoria()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">
-    Añadir
-  </button>
-</div>
-  <div *ngIf="errorProducto" class="text-red-600 text-sm mb-4">
-    Rellene el nombre de la categoría correctamente
-  </div>
-</div>
+  </header>
 
-<!-- Supermercados --> 
-  <div class="mb-12">
-  <h2 class="text-3xl font-semibold text-center text-[#E29578] mb-4">Supermercados</h2>
-  <table class="bg-white w-full overflow-hidden text-left rounded-lg shadow-lg mb-4">
-    <thead class="bg-[#83C5BE] text-white">
-      <tr>
-        <th class="p-2">Nombre</th>
-        <th class="p-2">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let supermercado of supermercados">
-        <td class="p-4 align-middle min-h-[48px]">{{ supermercado.nombre }}</td>
-        <td class="p-2 align-middle min-h-[48px]">
-          <button (click)="abrirPopupEditarSupermercado(supermercado)" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 mr-5">
-            Editar
-          </button>
-          <button (click)="eliminarSupermercado(supermercado.id)" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
-            Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div *ngIf="supermercadoEditando" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white rounded-lg p-6 w-80 shadow-lg">
-      <h3 class="text-xl font-semibold mb-4 text-[#006D77]">Editar Supermercado</h3>
-      <input [(ngModel)]="supermercadoEditando.nombre" type="text" class="border p-2 rounded w-full mb-4" placeholder="Nombre del supermercado"/>
-      <div class="flex justify-end gap-2">
-        <button (click)="guardarEdicionSupermercado()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">
-          Guardar
-        </button>
-        <button (click)="cancelarEdicionSupermercado()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
-          Cancelar
-        </button>
-      </div>
+  <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+    <section>
+      <div><h1 class="text-4xl font-extrabold tracking-tight text-[var(--color-principal-oscuro)] sm:text-5xl">Panel de administración</h1><p class="mt-3 text-lg text-[var(--color-texto-suave)]">Un espacio distinto, reservado para gestionar los datos de DonTacaño.</p></div>
+    </section>
+
+    <div class="admin-layout mt-8">
+      <!-- Menú vertical -->
+      <aside class="h-fit rounded-[var(--radio-tarjeta)] border border-[var(--color-borde)] bg-white p-5 shadow-lg">
+        <p class="px-3 pb-3 text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-texto-suave)]">Gestión</p>
+        <nav class="admin-sidebar-links" aria-label="Secciones de gestión">
+          <button type="button" (click)="seleccionarPestana('resumen')" [ngClass]="pestanaActiva === 'resumen' ? 'bg-[#e3f4ef] text-[var(--color-principal)]' : 'text-[var(--color-principal-oscuro)] hover:bg-[#f5faf8]'" class="flex w-full items-center gap-3 rounded-xl px-4 py-4 text-left font-bold transition">Resumen</button>
+          <button type="button" (click)="seleccionarPestana('productos')" [ngClass]="pestanaActiva === 'productos' ? 'bg-[#e3f4ef] text-[var(--color-principal)]' : 'text-[var(--color-principal-oscuro)] hover:bg-[#f5faf8]'" class="flex w-full items-center gap-3 rounded-xl px-4 py-4 text-left font-bold transition">Productos</button>
+          <button type="button" (click)="seleccionarPestana('precios')" [ngClass]="pestanaActiva === 'precios' ? 'bg-[#e3f4ef] text-[var(--color-principal)]' : 'text-[var(--color-principal-oscuro)] hover:bg-[#f5faf8]'" class="flex w-full items-center gap-3 rounded-xl px-4 py-4 text-left font-bold transition">Precios</button>
+          <button type="button" (click)="seleccionarPestana('categorias')" [ngClass]="pestanaActiva === 'categorias' ? 'bg-[#e3f4ef] text-[var(--color-principal)]' : 'text-[var(--color-principal-oscuro)] hover:bg-[#f5faf8]'" class="flex w-full items-center gap-3 rounded-xl px-4 py-4 text-left font-bold transition">Categorías</button>
+          <button type="button" (click)="seleccionarPestana('supermercados')" [ngClass]="pestanaActiva === 'supermercados' ? 'bg-[#e3f4ef] text-[var(--color-principal)]' : 'text-[var(--color-principal-oscuro)] hover:bg-[#f5faf8]'" class="flex w-full items-center gap-3 rounded-xl px-4 py-4 text-left font-bold transition">Supermercados</button>
+        </nav>
+      </aside>
+
+      <section class="overflow-hidden rounded-[var(--radio-tarjeta)] border border-[var(--color-borde)] bg-white shadow-lg">
+        <!-- RESUMEN -->
+        <ng-container *ngIf="pestanaActiva === 'resumen'">
+          <div class="flex flex-col justify-between gap-4 border-b border-[var(--color-borde)] px-7 py-7 sm:flex-row sm:items-center"><div><h2 class="text-3xl font-extrabold text-[var(--color-texto)]">Resumen</h2><p class="mt-1 text-[var(--color-texto-suave)]">Datos registrados en el sistema.</p></div><button type="button" (click)="seleccionarPestana('productos')" class="rounded-xl bg-[var(--color-acento)] px-5 py-3 font-bold text-white transition hover:bg-[#e95f50]">Añadir producto</button></div>
+          <div class="admin-summary-cards px-7 py-6"><div class="rounded-2xl bg-[#edf9f5] p-5"><p class="text-sm text-[var(--color-texto-suave)]">Categorías</p><strong class="mt-2 block text-4xl text-[var(--color-principal-oscuro)]">{{ categorias.length }}</strong></div><div class="rounded-2xl bg-[#eef5ff] p-5"><p class="text-sm text-[var(--color-texto-suave)]">Productos</p><strong class="mt-2 block text-4xl text-[var(--color-principal-oscuro)]">{{ productos.length }}</strong></div><div class="rounded-2xl bg-[#fff4e9] p-5"><p class="text-sm text-[var(--color-texto-suave)]">Precios</p><strong class="mt-2 block text-4xl text-[var(--color-principal-oscuro)]">{{ productosConPrecio.length }}</strong></div><div class="rounded-2xl bg-[#f2efff] p-5"><p class="text-sm text-[var(--color-texto-suave)]">Supermercados</p><strong class="mt-2 block text-4xl text-[var(--color-principal-oscuro)]">{{ supermercados.length }}</strong></div></div>
+          <div class="overflow-x-auto border-t border-[var(--color-borde)]"><table class="w-full min-w-[540px] text-left"><thead class="bg-[#fbfdfc] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]"><tr><th class="px-7 py-4">Producto reciente</th><th class="px-5 py-4">Categoría</th><th class="px-7 py-4">Precios</th></tr></thead><tbody><tr *ngFor="let producto of getProductosRecientes()" class="border-t border-[var(--color-borde)]"><td class="px-7 py-5 font-bold text-[var(--color-texto)]">{{ producto.nombre }}</td><td class="px-5 py-5 text-[var(--color-texto-suave)]">{{ getNombreCategoria(producto.categoria_id) }}</td><td class="px-7 py-5 font-bold text-[var(--color-principal)]">{{ contarPreciosProducto(producto.id) }} supermercados</td></tr><tr *ngIf="productos.length === 0"><td colspan="3" class="px-7 py-8 text-center text-[var(--color-texto-suave)]">Aún no hay productos registrados.</td></tr></tbody></table></div>
+        </ng-container>
+
+        <!-- PRODUCTOS -->
+        <ng-container *ngIf="pestanaActiva === 'productos'">
+          <div class="border-b border-[var(--color-borde)] px-7 py-7"><h2 class="text-3xl font-extrabold text-[var(--color-texto)]">Productos</h2><p class="mt-1 text-[var(--color-texto-suave)]">Añade y gestiona el catálogo de productos.</p></div>
+          <div class="border-b border-[var(--color-borde)] bg-[#fbfdfc] p-7"><h3 class="text-lg font-bold text-[var(--color-principal-oscuro)]">Añadir producto</h3><div class="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-[1fr_1fr_1fr_auto]"><input [(ngModel)]="nuevoProducto.nombre" placeholder="Ej. Tomates" class="rounded-xl border border-[var(--color-borde)] bg-white px-4 py-3 outline-none focus:border-[var(--color-principal)]" /><input [(ngModel)]="nuevoProducto.marca" placeholder="Ej. Huerta" class="rounded-xl border border-[var(--color-borde)] bg-white px-4 py-3 outline-none focus:border-[var(--color-principal)]" /><select [(ngModel)]="nuevoProducto.categoria_id" class="rounded-xl border border-[var(--color-borde)] bg-white px-4 py-3 outline-none focus:border-[var(--color-principal)]"><option [value]="null" disabled>Selecciona una categoría</option><option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option></select><button (click)="agregarProducto()" class="rounded-xl bg-[var(--color-acento)] px-5 py-3 font-bold text-white transition hover:bg-[#e95f50]">Añadir</button></div><p *ngIf="errorProducto" class="mt-3 text-sm text-red-600">Rellena todos los campos del producto.</p></div>
+          <div class="overflow-x-auto"><table class="w-full min-w-[720px] text-left"><thead class="bg-[#fbfdfc] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]"><tr><th class="px-7 py-4">Nombre</th><th class="px-5 py-4">Marca</th><th class="px-5 py-4">Categoría</th><th class="px-7 py-4 text-right">Acciones</th></tr></thead><tbody><tr *ngFor="let producto of productos" class="border-t border-[var(--color-borde)]"><td class="px-7 py-4 font-bold text-[var(--color-texto)]">{{ producto.nombre }}</td><td class="px-5 py-4 text-[var(--color-texto-suave)]">{{ producto.marca }}</td><td class="px-5 py-4 text-[var(--color-texto-suave)]">{{ getNombreCategoria(producto.categoria_id) }}</td><td class="px-7 py-4 text-right"><button (click)="abrirPopupEditarProducto(producto)" class="mr-3 font-bold text-[var(--color-principal)] hover:underline">Editar</button><button (click)="eliminarProducto(producto.id)" class="font-bold text-[var(--color-acento)] hover:underline">Eliminar</button></td></tr></tbody></table></div>
+        </ng-container>
+
+        <!-- PRECIOS -->
+        <ng-container *ngIf="pestanaActiva === 'precios'">
+          <div class="border-b border-[var(--color-borde)] px-7 py-7"><h2 class="text-3xl font-extrabold text-[var(--color-texto)]">Precios</h2><p class="mt-1 text-[var(--color-texto-suave)]">Relaciona cada producto con su precio por supermercado.</p></div>
+          <div class="border-b border-[var(--color-borde)] bg-[#fbfdfc] p-7"><h3 class="text-lg font-bold text-[var(--color-principal-oscuro)]">Añadir precio</h3><div class="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-[1fr_1fr_1fr_auto]"><select [(ngModel)]="nuevoPrecioProducto.producto_id" class="rounded-xl border border-[var(--color-borde)] bg-white px-4 py-3"><option [value]="null">Selecciona un producto</option><option *ngFor="let producto of productos" [value]="producto.id">{{ producto.nombre }}</option></select><select [(ngModel)]="nuevoPrecioProducto.supermercado_id" class="rounded-xl border border-[var(--color-borde)] bg-white px-4 py-3"><option [value]="null">Selecciona un supermercado</option><option *ngFor="let supermercado of supermercados" [value]="supermercado.id">{{ supermercado.nombre }}</option></select><input [(ngModel)]="nuevoPrecioProducto.precio" type="number" step="0.01" min="0" placeholder="Precio (€)" class="rounded-xl border border-[var(--color-borde)] bg-white px-4 py-3" /><button (click)="agregarProductoConPrecio()" class="rounded-xl bg-[var(--color-acento)] px-5 py-3 font-bold text-white transition hover:bg-[#e95f50]">Añadir</button></div></div>
+          <div class="overflow-x-auto"><table class="w-full min-w-[760px] text-left"><thead class="bg-[#fbfdfc] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]"><tr><th class="px-7 py-4">Producto</th><th class="px-5 py-4">Supermercado</th><th class="px-5 py-4">Categoría</th><th class="px-5 py-4">Precio</th><th class="px-7 py-4 text-right">Acciones</th></tr></thead><tbody><tr *ngFor="let item of productosConPrecio" class="border-t border-[var(--color-borde)]"><td class="px-7 py-4 font-bold text-[var(--color-texto)]">{{ item.producto_nombre }}</td><td class="px-5 py-4 text-[var(--color-texto-suave)]">{{ item.supermercado_nombre }}</td><td class="px-5 py-4 text-[var(--color-texto-suave)]">{{ item.categoria }}</td><td class="px-5 py-4 font-bold text-[var(--color-principal)]">{{ item.precio | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</td><td class="px-7 py-4 text-right"><button (click)="abrirPopupEditarPrecio(item)" class="mr-3 font-bold text-[var(--color-principal)] hover:underline">Editar</button><button (click)="eliminarProductoConPrecio(item.id)" class="font-bold text-[var(--color-acento)] hover:underline">Eliminar</button></td></tr></tbody></table></div>
+        </ng-container>
+
+        <!-- CATEGORÍAS -->
+        <ng-container *ngIf="pestanaActiva === 'categorias'">
+          <div class="border-b border-[var(--color-borde)] px-7 py-7"><h2 class="text-3xl font-extrabold text-[var(--color-texto)]">Categorías</h2><p class="mt-1 text-[var(--color-texto-suave)]">Organiza los productos por tipo.</p></div>
+          <div class="border-b border-[var(--color-borde)] bg-[#fbfdfc] p-7"><h3 class="text-lg font-bold text-[var(--color-principal-oscuro)]">Añadir categoría</h3><div class="mt-4 flex flex-col gap-3 sm:flex-row"><input [(ngModel)]="nuevaCategoria.nombre" placeholder="Nombre de la categoría" class="min-w-0 flex-1 rounded-xl border border-[var(--color-borde)] bg-white px-4 py-3" /><button (click)="agregarCategoria()" class="rounded-xl bg-[var(--color-acento)] px-5 py-3 font-bold text-white transition hover:bg-[#e95f50]">Añadir</button></div></div>
+          <div class="overflow-x-auto"><table class="w-full min-w-[520px] text-left"><thead class="bg-[#fbfdfc] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]"><tr><th class="px-7 py-4">Nombre</th><th class="px-7 py-4 text-right">Acciones</th></tr></thead><tbody><tr *ngFor="let categoria of categorias" class="border-t border-[var(--color-borde)]"><td class="px-7 py-4 font-bold text-[var(--color-texto)]">{{ categoria.nombre }}</td><td class="px-7 py-4 text-right"><button (click)="abrirPopupEditar(categoria)" class="mr-3 font-bold text-[var(--color-principal)] hover:underline">Editar</button><button (click)="eliminarCategoria(categoria.id)" class="font-bold text-[var(--color-acento)] hover:underline">Eliminar</button></td></tr></tbody></table></div>
+        </ng-container>
+
+        <!-- SUPERMERCADOS -->
+        <ng-container *ngIf="pestanaActiva === 'supermercados'">
+          <div class="border-b border-[var(--color-borde)] px-7 py-7"><h2 class="text-3xl font-extrabold text-[var(--color-texto)]">Supermercados</h2><p class="mt-1 text-[var(--color-texto-suave)]">Gestiona los establecimientos que participan en la comparativa.</p></div>
+          <div class="border-b border-[var(--color-borde)] bg-[#fbfdfc] p-7"><h3 class="text-lg font-bold text-[var(--color-principal-oscuro)]">Añadir supermercado</h3><div class="mt-4 flex flex-col gap-3 sm:flex-row"><input [(ngModel)]="nuevoSupermercado.nombre" placeholder="Nombre del supermercado" class="min-w-0 flex-1 rounded-xl border border-[var(--color-borde)] bg-white px-4 py-3" /><button (click)="agregarSupermercado()" class="rounded-xl bg-[var(--color-acento)] px-5 py-3 font-bold text-white transition hover:bg-[#e95f50]">Añadir</button></div></div>
+          <div class="overflow-x-auto"><table class="w-full min-w-[520px] text-left"><thead class="bg-[#fbfdfc] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]"><tr><th class="px-7 py-4">Nombre</th><th class="px-7 py-4 text-right">Acciones</th></tr></thead><tbody><tr *ngFor="let supermercado of supermercados" class="border-t border-[var(--color-borde)]"><td class="px-7 py-4 font-bold text-[var(--color-texto)]">{{ supermercado.nombre }}</td><td class="px-7 py-4 text-right"><button (click)="abrirPopupEditarSupermercado(supermercado)" class="mr-3 font-bold text-[var(--color-principal)] hover:underline">Editar</button><button (click)="eliminarSupermercado(supermercado.id)" class="font-bold text-[var(--color-acento)] hover:underline">Eliminar</button></td></tr></tbody></table></div>
+        </ng-container>
+      </section>
     </div>
-  </div>
-  <div class="flex gap-4 mb-2">
-    <input [(ngModel)]="nuevoSupermercado.nombre" placeholder="Nombre del supermercado" class="border p-2 rounded w-full"/>
-    <button (click)="agregarSupermercado()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">
-      Añadir
-    </button>
-  </div>
-  <div *ngIf="errorSupermercado" class="text-red-600 text-sm mb-4">
-    Rellene el campo del supermercado correctamente
-  </div>
-</div>
+  </main>
 
-<!-- Productos -->
-<div class="mb-12">
-  <h2 class="text-3xl font-semibold text-center text-[#E29578] mb-4">Productos</h2>
-  <table class="bg-white w-full overflow-hidden text-left rounded-lg shadow-lg mb-4">
-    <thead class="bg-[#83C5BE] text-white">
-      <tr>
-        <th class="p-2">Nombre</th>
-        <th class="p-2">Marca</th>
-        <th class="p-2">Categoria</th>
-        <th class="p-2">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let producto of productos">
-        <td class="p-4 align-middle min-h-[48px]">{{ producto.nombre }}</td>
-        <td class="p-2 align-middle min-h-[48px]">{{ producto.marca}}</td>
-        <td class="p-2 align-middle min-h-[48px]">{{ getNombreCategoria(producto.categoria_id) }}</td>
-        <td class="p-2 align-middle min-h-[48px]">
-          <button (click)="abrirPopupEditarProducto(producto)" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 mr-5">
-            Editar
-          </button>
-          <button (click)="eliminarProducto(producto.id)" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
-            Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div *ngIf="productoEditando" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white rounded-lg p-6 w-80 shadow-lg">
-      <h3 class="text-xl font-semibold mb-4 text-[#006D77]">Editar Producto</h3>
-      <input [(ngModel)]="productoEditando.nombre" type="text" class="border p-2 rounded w-full mb-2" placeholder="Nombre del producto"/>
-      <input [(ngModel)]="productoEditando.marca" type="text" class="border p-2 rounded w-full mb-4" placeholder="Marca"/>
-      <select [(ngModel)]="productoEditando.categoria_id" class="border p-2 rounded w-full mb-4">
-        <option *ngFor="let categoria of categorias" [value]="categoria.id">
-          {{ categoria.nombre }}
-        </option>
-      </select>
-      <div class="flex justify-end gap-2">
-        <button (click)="guardarEdicionProducto()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">
-          Guardar
-        </button>
-        <button (click)="cancelarEdicionProducto()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
-          Cancelar
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="flex gap-4 mb-2">
-    <input [(ngModel)]="nuevoProducto.nombre" placeholder="Nombre" class="border p-2 rounded w-full"/>
-    <input [(ngModel)]="nuevoProducto.marca" type="text" placeholder="Marca" class="border p-2 rounded w-full"/>
-    <select [(ngModel)]="nuevoProducto.categoria_id" class="border p-2 rounded w-full">
-    <option [value]="null" disabled selected>Selecciona una categoría</option>
-    <option *ngFor="let categoria of categorias" [value]="categoria.id">
-      {{ categoria.nombre }}
-    </option>
-  </select>
-    <button (click)="agregarProducto()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">
-      Añadir
-    </button>
-  </div>
-  <div *ngIf="errorProducto" class="text-red-600 text-sm mb-4">
-      Rellene todos los campos del producto
-  </div>
-</div>
-
-<!-- Precios -->
-<div class="mb-12">
-  <h2 class="text-3xl font-semibold text-center text-[#E29578] mb-4">Precios</h2>
-  <table class="bg-white w-full overflow-hidden text-left rounded-lg shadow-lg mb-4">
-  <thead class="bg-[#83C5BE] text-white">
-    <tr>
-      <th class="p-2">Producto</th>
-      <th class="p-2">Supermercado</th>
-      <th class="p-2">Categoría</th>
-      <th class="p-2">Precio</th>
-      <th class="p-2">Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of productosConPrecio">
-      <td class="p-4">{{ item.producto_nombre }}</td>
-      <td class="p-4">{{ item.supermercado_nombre }}</td>
-      <td class="p-4">{{ item.categoria }}</td>
-      <td class="p-4">{{ item.precio | currency:'EUR' }}</td>
-      <td class="p-2">
-        <button (click)="abrirPopupEditarPrecio(item)" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 mr-5">
-          Editar
-        </button>
-        <button (click)="eliminarProductoConPrecio(item.id)" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
-          Eliminar
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-  <!-- Pop-up edición precio -->
-  <div *ngIf="productoPrecioEditando" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white rounded-lg p-6 w-80 shadow-lg">
-      <h3 class="text-xl font-semibold mb-4 text-[#006D77]">Editar Precio</h3>
-      <input [value]="productoPrecioEditando.producto_nombre" class="border p-2 rounded w-full mb-2 bg-gray-100" readonly/>
-      <input [(ngModel)]="productoPrecioEditando.precio" type="number" step="0.01" min="0" class="border p-2 rounded w-full mb-4" placeholder="Precio (€)"/>
-      <div class="flex justify-end gap-2">
-        <button (click)="guardarEdicionPrecio()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">Guardar</button>
-        <button (click)="cancelarEdicionPrecio()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-<!-- Nuevo input con select para producto y supermercado -->
-<div class="flex gap-4 mb-2">
-  <select [(ngModel)]="nuevoPrecioProducto.producto_id" class="border p-2 rounded w-full">
-    <option [value]="null">Seleccione un producto</option>
-    <option *ngFor="let p of productos" [value]="p.id">{{ p.nombre }}</option>
-  </select>
-
-  <select [(ngModel)]="nuevoPrecioProducto.supermercado_id" class="border p-2 rounded w-full">
-    <option [value]="null">Seleccione un supermercado</option>
-    <option *ngFor="let s of supermercados" [value]="s.id">{{ s.nombre }}</option>
-  </select>
-
-  <input [(ngModel)]="nuevoPrecioProducto.precio" type="number" step="0.01" min="0" placeholder="Precio" class="border p-2 rounded w-full" />
-  <button (click)="agregarProductoConPrecio()" class="bg-[#006D77] text-white px-4 py-2 rounded hover:bg-[#005A64]">Añadir</button>
-</div>
-  
-
-</div>
+  <!-- Ventanas de edición -->
+  <div *ngIf="categoriaEditando" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"><div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl"><h3 class="text-xl font-bold text-[var(--color-principal-oscuro)]">Editar categoría</h3><input [(ngModel)]="categoriaEditando.nombre" class="mt-5 w-full rounded-xl border border-[var(--color-borde)] px-4 py-3" /><div class="mt-5 flex justify-end gap-3"><button (click)="cancelarEdicion()" class="rounded-xl px-4 py-2 font-bold text-[var(--color-texto-suave)]">Cancelar</button><button (click)="guardarEdicion()" class="rounded-xl bg-[var(--color-principal)] px-4 py-2 font-bold text-white">Guardar</button></div></div></div>
+  <div *ngIf="supermercadoEditando" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"><div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl"><h3 class="text-xl font-bold text-[var(--color-principal-oscuro)]">Editar supermercado</h3><input [(ngModel)]="supermercadoEditando.nombre" class="mt-5 w-full rounded-xl border border-[var(--color-borde)] px-4 py-3" /><div class="mt-5 flex justify-end gap-3"><button (click)="cancelarEdicionSupermercado()" class="rounded-xl px-4 py-2 font-bold text-[var(--color-texto-suave)]">Cancelar</button><button (click)="guardarEdicionSupermercado()" class="rounded-xl bg-[var(--color-principal)] px-4 py-2 font-bold text-white">Guardar</button></div></div></div>
+  <div *ngIf="productoEditando" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"><div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl"><h3 class="text-xl font-bold text-[var(--color-principal-oscuro)]">Editar producto</h3><input [(ngModel)]="productoEditando.nombre" placeholder="Nombre" class="mt-5 w-full rounded-xl border border-[var(--color-borde)] px-4 py-3" /><input [(ngModel)]="productoEditando.marca" placeholder="Marca" class="mt-3 w-full rounded-xl border border-[var(--color-borde)] px-4 py-3" /><select [(ngModel)]="productoEditando.categoria_id" class="mt-3 w-full rounded-xl border border-[var(--color-borde)] px-4 py-3"><option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option></select><div class="mt-5 flex justify-end gap-3"><button (click)="cancelarEdicionProducto()" class="rounded-xl px-4 py-2 font-bold text-[var(--color-texto-suave)]">Cancelar</button><button (click)="guardarEdicionProducto()" class="rounded-xl bg-[var(--color-principal)] px-4 py-2 font-bold text-white">Guardar</button></div></div></div>
+  <div *ngIf="productoPrecioEditando" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"><div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl"><h3 class="text-xl font-bold text-[var(--color-principal-oscuro)]">Editar precio</h3><input [value]="productoPrecioEditando.producto_nombre" class="mt-5 w-full rounded-xl border border-[var(--color-borde)] bg-slate-50 px-4 py-3" readonly /><input [(ngModel)]="productoPrecioEditando.precio" type="number" step="0.01" min="0" class="mt-3 w-full rounded-xl border border-[var(--color-borde)] px-4 py-3" placeholder="Precio (€)" /><div class="mt-5 flex justify-end gap-3"><button (click)="cancelarEdicionPrecio()" class="rounded-xl px-4 py-2 font-bold text-[var(--color-texto-suave)]">Cancelar</button><button (click)="guardarEdicionPrecio()" class="rounded-xl bg-[var(--color-principal)] px-4 py-2 font-bold text-white">Guardar</button></div></div></div>
 </div>

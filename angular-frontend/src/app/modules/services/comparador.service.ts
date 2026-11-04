@@ -5,10 +5,20 @@ import { SeleccionService } from './seleccion.service';
 
 export type PestanaComparador = 'productos' | 'categorias' | 'supermercados';
 
+// indica que mostrará de cada producto seleccionado
+export interface ProductoElegido {
+  id: number;
+  nombre: string;
+  categoria: string;
+  precioMinimo: number;
+  supermercadoMasBarato: string;
+}
+
 export interface DatosComparador {
   categorias: string[];
   supermercados: string[];
   productos: { id: number; nombre: string }[];
+  productosElegidos: ProductoElegido[];
   tabla: Record<string, Record<string, number>>;
   sumaPorCategoria: Record<string, Record<string, number>>;
   totalesPorSupermercado: Record<string, number>;
@@ -77,6 +87,28 @@ export class ComparadorService {
       }
     }
 
+        const productosElegidos: ProductoElegido[] = productos.map(producto => {
+      const preciosProducto = Object.entries(tabla[producto.nombre]) as [string, number][];
+
+      const [supermercadoMasBarato, precioMinimo] = preciosProducto.reduce(
+        (mejorPrecio, precioActual) =>
+          precioActual[1] < mejorPrecio[1] ? precioActual : mejorPrecio
+      );
+
+      const categoria = categorias.find(categoriaActual =>
+        productosPorCategoria[categoriaActual][producto.nombre]
+      ) ?? 'Sin categoría';
+
+      return {
+        id: producto.id,
+        nombre: producto.nombre,
+        categoria,
+        precioMinimo,
+        supermercadoMasBarato
+      };
+    });
+
+
     const totalesPorSupermercado: Record<string, number> = {};
     for (const supermercado of supermercados) {
       totalesPorSupermercado[supermercado] = productos.reduce(
@@ -102,6 +134,7 @@ export class ComparadorService {
       categorias,
       supermercados,
       productos,
+      productosElegidos,
       tabla,
       sumaPorCategoria,
       totalesPorSupermercado,
