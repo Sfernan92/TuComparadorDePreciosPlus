@@ -1,315 +1,55 @@
 <app-navbar></app-navbar>
 
-<!-- Cabecera principal -->
-<section class="relative overflow-hidden border-b border-[var(--color-borde)] px-4 py-16 text-center sm:py-20">
-  
-  <!-- Manchas decorativas de fondo -->
-  <div class="pointer-events-none absolute -left-28 top-0 h-72 w-72 rounded-full bg-[#e4f5ee] blur-3xl"></div>
-  <div class="pointer-events-none absolute -right-28 bottom-0 h-72 w-72 rounded-full bg-[#ffe6d1] blur-3xl"></div>
+<main>
+  <section class="relative overflow-hidden border-b border-[var(--color-borde)] px-4 py-16 text-center sm:py-20">
+    <div class="pointer-events-none absolute -left-28 top-0 h-72 w-72 rounded-full bg-[#e4f5ee] blur-3xl"></div>
+    <div class="pointer-events-none absolute -right-28 bottom-0 h-72 w-72 rounded-full bg-[#ffe6d1] blur-3xl"></div>
 
-  <!-- Contenido visible de la cabecera -->
-  <div class="relative mx-auto max-w-4xl">
-    <h2 class="text-4xl font-extrabold tracking-tight text-[var(--color-principal-oscuro)] sm:text-5xl lg:text-6xl">
-      Ahorra en cada compra
-      <span class="block font-light italic text-[var(--color-principal)]">
-        comparando precios
-      </span>
-    </h2>
-
-    <p class="mt-5 text-base text-[var(--color-texto-suave)] sm:text-lg">
-      Comparamos en tiempo real los precios de tus supermercados favoritos.
-    </p>
-    
-    <!-- El componente buscador incluye internamente el campo y su botón -->
-      <div class="relative mx-auto mt-10 w-full max-w-3xl">
-        <app-buscador></app-buscador>
-      </div>
-        </div>
-
-</section>
-
-<!-- Zona principal: lista y productos elegidos -->
-<section class="px-4 py-10 sm:py-14">
-  <div class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.85fr_1.35fr]">
-
-    <!-- Tarjeta de la lista -->
-    <article class="overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <header class="border-b border-[var(--color-borde)] px-6 py-5">
-        <h3 class="text-2xl font-bold text-[var(--color-texto)]">
-          🧺 Tu lista
-        </h3>
-      </header>
-
-      <div class="min-h-60 px-6 py-5">
-    <ul *ngIf="productos.length > 0; else listaVacia" class="space-y-3">
-      <li 
-        *ngFor="let producto of productos"
-        class="flex items-center justify-between rounded-2xl bg-[#f5faf7] px-4 py-4">
-
-        <span class="font-semibold text-[var(--color-texto)]">
-          {{ producto.nombre }}
-        </span>
-
-        <button
-          type="button"
-          (click)="quitarProducto(producto.id)"
-          class="text-xl text-[var(--color-texto-suave)] transition hover:text-[var(--color-acento)]"
-          aria-label="Quitar producto de la lista">
-          ×
-        </button>
-      </li>
-    </ul>
-
-  <ng-template #listaVacia>
-    <div class="flex min-h-48 items-center justify-center">
-      <p class="text-center text-[var(--color-texto-suave)]">
-        Busca y selecciona productos para crear tu lista.
+    <div class="relative mx-auto max-w-4xl">
+      <p class="text-sm font-bold uppercase tracking-[0.18em] text-[var(--color-principal)]">Tu compra, comparada al instante</p>
+      <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-[var(--color-principal-oscuro)] sm:text-5xl lg:text-6xl">
+        Compra mejor,
+        <span class="block font-light italic text-[var(--color-principal)]">sin complicaciones.</span>
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-base text-[var(--color-texto-suave)] sm:text-lg">
+        Forma tu lista y descubre qué supermercado te conviene antes de salir de casa.
       </p>
+      <div class="relative mx-auto mt-10 w-full max-w-3xl"><app-buscador></app-buscador></div>
     </div>
-  </ng-template>
-</div>
-    </article>
+  </section>
 
-    <!-- Tarjeta de productos elegidos -->
-    <article class="overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <header class="border-b border-[var(--color-borde)] px-6 py-5">
-        <h3 class="text-2xl font-bold text-[var(--color-texto)]">
-          Productos elegidos
-        </h3>
-      </header>
-
-      <div class="min-h-60 overflow-x-auto px-6 py-5">
-  <table *ngIf="productosElegidos.length > 0; else productosElegidosVacios" class="w-full min-w-150 text-left">
-    <thead class="border-b border-[var(--color-borde)] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]">
-      <tr>
-        <th class="px-3 py-3 font-semibold">Producto</th>
-        <th class="px-3 py-3 font-semibold">Categoría</th>
-        <th class="px-3 py-3 font-semibold">Precio más bajo</th>
-        <th class="px-3 py-3 font-semibold">Supermercado</th>
-      </tr>
-    </thead>
-
-    <tbody class="divide-y divide-[var(--color-borde)]">
-      <tr *ngFor="let producto of productosElegidos">
-        <td class="whitespace-nowrap px-3 py-4 font-semibold text-[var(--color-texto)]">
-          {{ producto.nombre }}
-        </td>
-
-        <td class="whitespace-nowrap px-3 py-4">
-          <span class="categoria-etiqueta" [ngClass]="getClaseCategoria(producto.categoria)">
-            {{ getNombreCategoria(producto.categoria) }}
-          </span>
-        </td>
-
-        <td class="whitespace-nowrap px-3 py-4 font-bold text-[var(--color-principal)]">
-          {{ producto.precioMinimo | currency:'EUR':'symbol':'1.2-2':'es-ES' }}
-        </td>
-
-        <td class="whitespace-nowrap px-3 py-4 text-[var(--color-texto-suave)]">
-          {{ producto.supermercadoMasBarato }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <ng-template #productosElegidosVacios>
-    <div class="flex min-h-48 items-center justify-center">
-      <p class="text-center text-[var(--color-texto-suave)]">
-        Selecciona productos para ver dónde está cada uno más barato.
-      </p>
-    </div>
-  </ng-template>
-</div>
-    </article>
-
-  </div>
-</section>
-
-<!-- Comparativas: productos y categorías a la izquierda; total por supermercado a la derecha -->
-<section class="px-4 py-10 sm:py-14">
-  <div class="mx-auto grid max-w-7xl items-start gap-6 xl:grid-cols-[1.6fr_0.85fr]">
-    <!-- Columna izquierda: comparativas detalladas -->
-    <div class="space-y-6">
-      <!-- Comparador por productos: muestra el precio de cada producto en todos los supermercados -->
+  <section class="px-4 py-10 sm:py-14">
+    <div *ngIf="datos as comparador" class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
       <article class="overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-
-      <!-- Cabecera de la tarjeta: título y texto explicativo -->
-      <header class="border-b border-[var(--color-borde)] px-6 py-5">
-        <h3 class="text-2xl font-bold text-[var(--color-texto)]">
-          Comparador por productos
-        </h3>
-
-        <p class="mt-1 text-sm text-[var(--color-texto-suave)]">
-          Consulta el precio de cada producto en todos los supermercados.
-        </p>
-      </header>
-
-      <!-- Contenedor de la tabla: permite desplazamiento horizontal en pantallas pequeñas -->
-      <div class="min-h-60 overflow-x-auto px-6 py-5">
-
-        <!-- Tabla visible solo cuando hay al menos un producto seleccionado -->
-        <table *ngIf="productos.length > 0; else productosSinSeleccion" class="w-full min-w-[680px] text-left">
-
-          <!-- Encabezado: primera columna para productos y una columna dinámica por supermercado -->
-          <thead class="border-b border-[var(--color-borde)] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]">
-            <tr>
-              <th class="px-3 py-3 font-semibold">Producto</th>
-
-              <!-- Angular repite esta celda para cada supermercado disponible -->
-              <th
-                *ngFor="let supermercado of supermercados"
-                class="px-3 py-3 font-semibold">
-                {{ supermercado }}
-              </th>
-            </tr>
-          </thead>
-
-          <!-- Cuerpo de la tabla: Angular crea una fila por cada producto seleccionado -->
-          <tbody class="divide-y divide-[var(--color-borde)]">
-            <tr *ngFor="let producto of productos">
-
-              <!-- Nombre del producto que corresponde a esta fila -->
-              <td class="whitespace-nowrap px-3 py-4 font-semibold text-[var(--color-texto)]">
-                {{ producto.nombre }}
-              </td>
-
-              <!-- Precio del producto actual en cada supermercado; muestra — si no existe -->
-              <td
-                *ngFor="let supermercado of supermercados"
-                class="whitespace-nowrap px-3 py-4 font-bold text-[var(--color-principal)]">
-                {{
-                  tabla[producto.nombre]?.[supermercado] !== undefined
-                    ? (tabla[producto.nombre][supermercado] | currency:'EUR':'symbol':'1.2-2':'es-ES')
-                    : '—'
-                }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Estado vacío: se muestra cuando todavía no hay productos en la lista -->
-        <ng-template #productosSinSeleccion>
-          <div class="flex min-h-48 items-center justify-center">
-            <p class="text-center text-[var(--color-texto-suave)]">
-              Selecciona productos para comparar sus precios.
-            </p>
-          </div>
-        </ng-template>
-      </div>
+        <header class="border-b border-[var(--color-borde)] px-6 py-5"><h2 class="text-2xl font-bold text-[var(--color-texto)]">🧺 Tu lista</h2></header>
+        <div class="min-h-60 px-6 py-5">
+          <ul *ngIf="comparador.productos.length > 0; else listaVacia" class="space-y-3">
+            <li *ngFor="let producto of comparador.productos" class="flex items-center justify-between rounded-2xl bg-[#f5faf7] px-4 py-4">
+              <span class="font-semibold text-[var(--color-texto)]">{{ producto.nombre }}</span>
+              <button type="button" (click)="quitarProducto(producto.id)" class="text-xl text-[var(--color-texto-suave)] transition hover:text-[var(--color-acento)]" aria-label="Quitar producto de la lista">×</button>
+            </li>
+          </ul>
+          <ng-template #listaVacia><div class="flex min-h-48 items-center justify-center"><p class="text-center text-[var(--color-texto-suave)]">Busca y selecciona productos para crear tu lista.</p></div></ng-template>
+        </div>
       </article>
 
-      <!-- Comparativa por categorías: suma los precios seleccionados agrupados por categoría -->
-      <article class="overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <header class="border-b border-[var(--color-borde)] px-6 py-5">
-        <h3 class="text-2xl font-bold text-[var(--color-texto)]">
-          Comparativa por categorías
-        </h3>
-        <p class="mt-1 text-sm text-[var(--color-texto-suave)]">
-          Consulta el total de tus productos por categoría y supermercado.
-        </p>
-      </header>
-
-      <div class="overflow-x-auto px-6 py-5">
-        <table *ngIf="categorias.length > 0; else categoriasVacias" class="w-full min-w-[680px] text-left">
-          <thead class="border-b border-[var(--color-borde)] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]">
-            <tr>
-              <th class="px-3 py-3 font-semibold">Categoría</th>
-              <th *ngFor="let supermercado of supermercados" class="px-3 py-3 font-semibold">
-                {{ supermercado }}
-              </th>
-            </tr>
-          </thead>
-
-          <tbody class="divide-y divide-[var(--color-borde)]">
-            <tr *ngFor="let categoria of categorias">
-              <td class="whitespace-nowrap px-3 py-4 font-semibold text-[var(--color-texto)]">
-                {{ categoria }}
-              </td>
-
-              <td
-                *ngFor="let supermercado of supermercados"
-                class="whitespace-nowrap px-3 py-4 font-bold text-[var(--color-principal)]">
-                {{ (sumaPorCategoria[categoria]?.[supermercado] ?? 0) | currency:'EUR':'symbol':'1.2-2':'es-ES' }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <ng-template #categoriasVacias>
-          <div class="flex min-h-48 items-center justify-center">
-            <p class="text-center text-[var(--color-texto-suave)]">
-              Selecciona productos para ver su comparativa por categorías.
-            </p>
+      <article class="relative overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-principal)] px-7 py-8 text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+        <div class="pointer-events-none absolute -bottom-4 -right-4 text-8xl opacity-10">🧺 🥬</div>
+        <p class="relative text-sm font-bold uppercase tracking-[0.14em] text-[#c8efec]">Resumen de tu cesta</p>
+        <ng-container *ngIf="comparador.supermercadoMasBarato; else resumenVacio">
+          <h2 class="relative mt-4 text-3xl font-extrabold sm:text-4xl">Hoy puedes ahorrar comparando.</h2>
+          <p class="relative mt-3 max-w-xl text-[#d3f0ee]">{{ comparador.supermercadoMasBarato }} tiene el precio total más bajo para tu selección.</p>
+          <div class="relative mt-7 flex flex-col gap-3 border-t border-white/20 pt-5 sm:flex-row sm:items-end sm:justify-between">
+            <span class="text-[#d3f0ee]">Total estimado · {{ comparador.productos.length }} productos</span>
+            <strong class="text-3xl">{{ comparador.totalMasBajo | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong>
           </div>
-        </ng-template>
-      </div>
+          <a routerLink="/comparar" class="relative mt-7 inline-flex rounded-full bg-[var(--color-acento)] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e95f50]">Ver mi comparativa</a>
+        </ng-container>
+        <ng-template #resumenVacio><h2 class="relative mt-4 text-3xl font-extrabold">Tu mejor compra aparecerá aquí.</h2><p class="relative mt-3 text-[#d3f0ee]">Añade productos desde el buscador y calcularemos el mejor supermercado.</p></ng-template>
       </article>
     </div>
-
-    <!-- Comparativa por supermercado: muestra el precio total de toda la lista en cada supermercado -->
-    <article class="h-full overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <header class="border-b border-[var(--color-borde)] px-6 py-5">
-        <h3 class="text-2xl font-bold text-[var(--color-texto)]">
-          Comparativa por supermercado
-        </h3>
-        <p class="mt-1 text-sm text-[var(--color-texto-suave)]">
-          Comprueba cuánto cuesta tu lista completa en cada supermercado.
-        </p>
-      </header>
-
-      <div *ngIf="supermercados.length > 0; else supermercadosVacios" class="space-y-3 px-6 py-5">
-        <!-- Una fila por supermercado -->
-<div
-  *ngFor="let supermercado of supermercados"
-  class="rounded-2xl bg-[#f5faf7] px-5 py-4">
-
-  <!-- Nombre del supermercado y total de la compra -->
-  <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-    <div>
-      <h4 class="text-lg font-bold text-[var(--color-texto)]">
-        {{ supermercado }}
-      </h4>
-
-      <p class="text-sm text-[var(--color-texto-suave)]">
-        Precio total de tu lista
-      </p>
-    </div>
-
-    <p class="text-2xl font-extrabold text-[var(--color-principal)]">
-      {{ totalesPorSupermercado[supermercado] | currency:'EUR':'symbol':'1.2-2':'es-ES' }}
-    </p>
-  </div>
-
-  <!-- Barra visual proporcional al total del supermercado -->
-  <div class="mt-4 h-3 overflow-hidden rounded-full bg-[#dfeae8]">
-    <div
-      class="h-full rounded-full bg-[var(--color-principal)] transition-all duration-500"
-      [style.width.%]="getPorcentajeTotal(supermercado)">
-    </div>
-  </div>
-
-  <!-- Diferencia con respecto al supermercado más caro -->
-  <p class="mt-3 text-sm text-[var(--color-texto-suave)]">
-    Ahorro estimado:
-    <span class="font-bold text-[var(--color-principal)]">
-      {{ getAhorro(supermercado) | currency:'EUR':'symbol':'1.2-2':'es-ES' }}
-    </span>
-  </p>
-</div>
-      </div>
-
-      <ng-template #supermercadosVacios>
-        <div class="flex min-h-48 items-center justify-center px-6 py-8">
-          <p class="text-center text-[var(--color-texto-suave)]">
-            Selecciona productos para comparar el total de tu compra.
-          </p>
-        </div>
-      </ng-template>
-    </article>
-  </div>
-</section>
-
-
+  </section>
+</main>
 
 <app-toast></app-toast>
 <app-footer></app-footer>
