@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 
 type PestanaAdmin = 'resumen' | 'categorias' | 'supermercados' | 'productos' | 'precios';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, NavbarComponent],
   templateUrl: './admin.component.html',
 })
 
