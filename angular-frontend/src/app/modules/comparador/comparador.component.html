@@ -52,15 +52,67 @@
     <section *ngIf="pestanaActiva === 'productos'" class="relative mt-6 overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <!-- Decoración relacionada con los productos y sus precios. -->
       <div class="pointer-events-none absolute -bottom-6 -right-4 z-0 text-8xl opacity-10" aria-hidden="true">🍅 💶</div>
-      <header class="relative z-10 border-b border-[var(--color-borde)] px-6 py-5"><h2 class="text-2xl font-bold text-[var(--color-texto)]">Comparador por productos</h2><p class="mt-1 text-sm text-[var(--color-texto-suave)]">El precio de cada producto en todos los supermercados.</p></header>
-      <div class="relative z-10 overflow-x-auto px-6 py-5"><table *ngIf="comparador.productos.length > 0; else tablaVacia" class="w-full min-w-[680px] text-left"><thead class="border-b border-[var(--color-borde)] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]"><tr><th class="px-3 py-3">Producto</th><th *ngFor="let supermercado of comparador.supermercados" class="px-3 py-3">{{ supermercado }}</th></tr></thead><tbody class="divide-y divide-[var(--color-borde)]"><tr *ngFor="let producto of comparador.productos"><td class="whitespace-nowrap px-3 py-4 font-bold text-[var(--color-texto)]">{{ producto.nombre }}</td><td *ngFor="let supermercado of comparador.supermercados" class="whitespace-nowrap px-3 py-4 font-bold text-[var(--color-principal)]">{{ comparador.tabla[producto.nombre]?.[supermercado] !== undefined ? (comparador.tabla[producto.nombre][supermercado] | currency:'EUR':'symbol':'1.2-2':'es-ES') : '—' }}</td></tr></tbody></table></div>
+      <header class="relative z-10 flex flex-col gap-4 border-b border-[var(--color-borde)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <div><h2 class="text-2xl font-bold text-[var(--color-texto)]">Comparador por productos</h2><p class="mt-1 text-sm text-[var(--color-texto-suave)]">Una etiqueta grande destaca el mejor precio de cada producto.</p></div>
+        <span class="comparador-productos-insignia">Mejor precio destacado</span>
+      </header>
+
+      <div *ngIf="comparador.productosElegidos.length > 0; else tablaVacia" class="relative z-10 px-6 py-5">
+        <div class="comparador-productos-lista">
+          <article *ngFor="let producto of comparador.productosElegidos" class="comparador-producto-fila">
+            <div class="comparador-producto-nombre">
+              <span aria-hidden="true">{{ obtenerIconoProducto(producto.nombre) }}</span>
+              <div><h3>{{ producto.nombre }}</h3><p>{{ producto.categoria }}</p></div>
+            </div>
+
+            <ng-container *ngIf="getPreciosProducto(producto.nombre) as precios">
+              <div *ngIf="precios[0] as mejorPrecio" class="comparador-producto-ganador">
+                <small>{{ mejorPrecio.supermercado }}</small>
+                <strong>{{ mejorPrecio.total | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong>
+              </div>
+
+              <div class="comparador-producto-resto" *ngIf="precios.length > 1">
+                <span *ngFor="let precio of precios | slice:1">{{ precio.supermercado }} <strong>{{ precio.total | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong></span>
+              </div>
+            </ng-container>
+          </article>
+        </div>
+      </div>
     </section>
 
     <section *ngIf="pestanaActiva === 'categorias'" class="relative mt-6 overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <!-- Decoración relacionada con la organización de categorías. -->
       <div class="pointer-events-none absolute -bottom-6 -right-4 z-0 text-8xl opacity-10" aria-hidden="true">🏷️ 🍎</div>
-      <header class="relative z-10 border-b border-[var(--color-borde)] px-6 py-5"><h2 class="text-2xl font-bold text-[var(--color-texto)]">Comparativa por categorías</h2><p class="mt-1 text-sm text-[var(--color-texto-suave)]">El total de tus productos agrupados por categoría.</p></header>
-      <div class="relative z-10 overflow-x-auto px-6 py-5"><table *ngIf="comparador.categorias.length > 0; else tablaVacia" class="w-full min-w-[680px] text-left"><thead class="border-b border-[var(--color-borde)] text-xs uppercase tracking-wide text-[var(--color-texto-suave)]"><tr><th class="px-3 py-3">Categoría</th><th *ngFor="let supermercado of comparador.supermercados" class="px-3 py-3">{{ supermercado }}</th></tr></thead><tbody class="divide-y divide-[var(--color-borde)]"><tr *ngFor="let categoria of comparador.categorias"><td class="whitespace-nowrap px-3 py-4 font-bold text-[var(--color-texto)]">{{ categoria }}</td><td *ngFor="let supermercado of comparador.supermercados" class="whitespace-nowrap px-3 py-4 font-bold text-[var(--color-principal)]">{{ (comparador.sumaPorCategoria[categoria]?.[supermercado] ?? 0) | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</td></tr></tbody></table></div>
+      <header class="relative z-10 border-b border-[var(--color-borde)] px-6 py-5"><h2 class="text-2xl font-bold text-[var(--color-texto)]">Comparativa por categorías</h2><p class="mt-1 text-sm text-[var(--color-texto-suave)]">La mejor opción de cada grupo y el ahorro posible frente al precio más alto.</p></header>
+
+      <div *ngIf="comparador.categorias.length > 0; else tablaVacia" class="relative z-10 px-6 py-5">
+        <div class="comparador-categorias-grid">
+          <article *ngFor="let categoria of comparador.categorias" class="categoria-tarjeta">
+            <div class="categoria-tarjeta-cabecera">
+              <h3>{{ categoria }}</h3>
+            </div>
+
+            <ng-container *ngIf="getPreciosCategoria(categoria) as precios">
+              <ng-container *ngIf="precios[0] as mejorPrecio">
+                <p class="categoria-tarjeta-precio">{{ mejorPrecio.total | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</p>
+                <p class="categoria-tarjeta-mejor">Mejor precio en {{ mejorPrecio.supermercado }}</p>
+
+                <div *ngIf="precios.length > 1" class="categoria-tarjeta-ahorro">
+                  <span>Frente a {{ precios[precios.length - 1].supermercado }}</span>
+                  <strong>Ahorras {{ getAhorroCategoria(categoria) | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong>
+                </div>
+
+                <div class="categoria-tarjeta-precios" *ngIf="precios.length > 1">
+                  <div *ngFor="let precio of precios | slice:1" class="categoria-tarjeta-fila">
+                    <span>{{ precio.supermercado }}</span>
+                    <strong>{{ precio.total | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </article>
+        </div>
+      </div>
     </section>
 
     <section *ngIf="pestanaActiva === 'supermercados'" class="relative mt-6 overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">

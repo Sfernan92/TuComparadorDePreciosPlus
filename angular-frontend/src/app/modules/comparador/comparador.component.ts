@@ -78,6 +78,53 @@ export class ComparadorComponent implements OnInit, OnDestroy {
     return `comparador-podio-puesto-${this.getPuesto(supermercado)}`;
   }
 
+  // Ordena todos los precios de un producto para destacar siempre el más bajo en su etiqueta.
+  getPreciosProducto(nombreProducto: string): { supermercado: string; total: number }[] {
+    if (!this.datos) return [];
+
+    return this.datos.supermercados
+      .map(supermercado => ({
+        supermercado,
+        total: this.datos?.tabla[nombreProducto]?.[supermercado] ?? 0
+      }))
+      .sort((primero, segundo) => primero.total - segundo.total);
+  }
+
+  // Ordena los supermercados de una categoría de menor a mayor importe.
+  getPreciosCategoria(categoria: string): { supermercado: string; total: number }[] {
+    if (!this.datos) return [];
+
+    return this.datos.supermercados
+      .map(supermercado => ({
+        supermercado,
+        total: this.datos?.sumaPorCategoria[categoria]?.[supermercado] ?? 0
+      }))
+      .sort((primero, segundo) => primero.total - segundo.total);
+  }
+
+  // La diferencia entre la opción más cara y la más barata es el ahorro potencial de esa categoría.
+  getAhorroCategoria(categoria: string): number {
+    const precios = this.getPreciosCategoria(categoria);
+    if (precios.length < 2) return 0;
+    return precios[precios.length - 1].total - precios[0].total;
+  }
+
+  // Igual que los iconos de producto, este icono es puramente visual: no altera la categoría almacenada.
+  obtenerIconoCategoria(categoria: string): string {
+    const categoriaNormalizada = categoria
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+
+    const iconos: [string, string][] = [
+      ['fruta', '🍓'], ['verdura', '🥬'], ['lacteo', '🥛'], ['bebida', '🥤'],
+      ['congelado', '🧊'], ['fruto seco', '🥜'], ['carne', '🥩'], ['pescado', '🐟'],
+      ['panader', '🍞'], ['despensa', '🥫'], ['limpieza', '🧽']
+    ];
+
+    return iconos.find(([texto]) => categoriaNormalizada.includes(texto))?.[1] ?? '🏷️';
+  }
+
   // Los iconos son solo decorativos: los productos siguen llegando de la API con id y nombre.
   // Normalizamos el texto para que "Plátanos" y "platanos" encuentren el mismo icono.
   obtenerIconoProducto(nombre: string): string {

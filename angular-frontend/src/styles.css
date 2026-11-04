@@ -231,6 +231,117 @@ body {
 .lista-vista-texto { margin: 0; color: var(--color-texto-suave); font-size: 0.85rem; line-height: 1.4; }
 .lista-vista-texto strong { color: var(--color-texto); }
 
+/* Tarjetas de ahorro de la comparativa por categorías. */
+.comparador-categorias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+
+.categoria-tarjeta {
+  min-width: 0;
+  border: 1px solid var(--color-borde);
+  border-radius: 1.125rem;
+  background: #f7fbfa;
+  padding: 1.15rem;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.categoria-tarjeta:nth-child(3n + 2) { background: #f5f9ff; }
+.categoria-tarjeta:nth-child(3n) { background: #fff8f2; }
+.categoria-tarjeta:hover { transform: translateY(-0.25rem); box-shadow: var(--sombra-tarjeta); }
+
+.categoria-tarjeta-cabecera { display: flex; gap: 0.7rem; align-items: center; }
+.categoria-tarjeta-cabecera h3 { margin: 0; color: var(--color-texto); font-size: 1.05rem; }
+
+.categoria-tarjeta-icono {
+  display: grid;
+  width: 2.3rem;
+  height: 2.3rem;
+  place-items: center;
+  border-radius: 0.75rem;
+  background: white;
+  font-size: 1.25rem;
+  box-shadow: 0 3px 10px rgba(6, 77, 90, 0.08);
+}
+
+.categoria-tarjeta-precio { margin: 1rem 0 0; color: var(--color-principal); font-size: 1.75rem; font-weight: 800; }
+.categoria-tarjeta-mejor { margin: 0.15rem 0 0; color: var(--color-texto-suave); font-size: 0.85rem; }
+
+.categoria-tarjeta-ahorro {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+  border-radius: 0.7rem;
+  background: rgba(0, 125, 130, 0.09);
+  padding: 0.6rem 0.7rem;
+  color: var(--color-principal);
+  font-size: 0.75rem;
+}
+
+.categoria-tarjeta-ahorro strong { text-align: right; }
+.categoria-tarjeta-precios { display: grid; gap: 0.55rem; margin-top: 0.9rem; }
+.categoria-tarjeta-fila { display: flex; justify-content: space-between; gap: 0.75rem; color: var(--color-texto-suave); font-size: 0.85rem; }
+.categoria-tarjeta-fila strong { color: var(--color-texto); }
+
+/* Etiquetas de precio del comparador por productos. */
+.comparador-productos-insignia {
+  align-self: flex-start;
+  border-radius: 9999px;
+  background: #e4f5ee;
+  padding: 0.7rem 1rem;
+  color: var(--color-principal);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.comparador-productos-lista { display: grid; gap: 1rem; }
+
+.comparador-producto-fila {
+  display: grid;
+  grid-template-columns: 13rem 9.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  border-radius: 1.125rem;
+  background: #f7fbfa;
+  padding: 1rem;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.comparador-producto-fila:nth-child(3n + 2) { background: #f4f8ff; }
+.comparador-producto-fila:nth-child(3n) { background: #fff8f2; }
+.comparador-producto-fila:hover { transform: translateY(-0.2rem); box-shadow: var(--sombra-tarjeta); }
+
+.comparador-producto-nombre { display: flex; min-width: 0; gap: 0.8rem; align-items: center; }
+.comparador-producto-nombre > span { font-size: 2rem; }
+.comparador-producto-nombre h3 { margin: 0; color: var(--color-texto); font-size: 1.15rem; }
+.comparador-producto-nombre p { margin: 0.2rem 0 0; color: var(--color-texto-suave); font-size: 0.8rem; }
+
+.comparador-producto-ganador {
+  border-radius: 0.75rem 0.75rem 0.75rem 0.18rem;
+  background: var(--color-principal);
+  padding: 0.85rem 0.7rem;
+  color: white;
+  text-align: center;
+  transform: rotate(-1.5deg);
+  box-shadow: 0 0.35rem 0.8rem rgba(0, 125, 130, 0.2);
+}
+
+.comparador-producto-ganador small { display: block; font-size: 0.7rem; font-weight: 700; }
+.comparador-producto-ganador strong { display: block; margin-top: 0.2rem; font-size: 1.35rem; }
+
+.comparador-producto-resto { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+.comparador-producto-resto span { border: 1px dashed #c8dcd7; border-radius: 0.7rem; background: white; padding: 0.65rem 0.75rem; color: var(--color-texto-suave); font-size: 0.8rem; white-space: nowrap; }
+.comparador-producto-resto strong { color: var(--color-texto); }
+
+@media (min-width: 640px) { .comparador-productos-insignia { align-self: auto; } }
+
+@media (max-width: 760px) {
+  .comparador-producto-fila { grid-template-columns: 1fr; gap: 0.8rem; }
+  .comparador-producto-ganador { justify-self: start; min-width: 9.5rem; }
+}
+
 @media (max-width: 640px) {
   .comparador-podio { gap: 0.5rem; min-height: 14rem; }
   .comparador-podio-item { min-height: 7rem; padding: 0.75rem 0.25rem; }
