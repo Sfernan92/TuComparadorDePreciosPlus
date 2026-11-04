@@ -81,3 +81,164 @@ body {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+/* Podio de la comparativa por supermercado. */
+.comparador-podio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 1rem;
+  min-height: 17rem;
+  padding: 1rem 0 0;
+}
+
+.comparador-podio-item {
+  display: flex;
+  min-height: 8.5rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 1.125rem 1.125rem 0 0;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.comparador-podio-item:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.comparador-podio-puesto-1 { min-height: 14rem; background: #dff3ed; }
+.comparador-podio-puesto-2 { min-height: 11rem; background: #eaf2ff; }
+.comparador-podio-puesto-3 { min-height: 9rem; background: #fff0e7; }
+
+.comparador-podio-numero {
+  display: grid;
+  height: 2.75rem;
+  width: 2.75rem;
+  place-items: center;
+  border-radius: 9999px;
+  background: white;
+  color: var(--color-principal);
+  font-size: 1.125rem;
+  font-weight: 700;
+  box-shadow: 0 5px 13px rgba(6, 77, 90, 0.12);
+}
+
+.comparador-podio-item h3 { margin: 0.7rem 0 0.2rem; color: var(--color-principal-oscuro); font-size: 1.125rem; }
+.comparador-podio-item strong { color: var(--color-principal); font-size: 1.25rem; }
+.comparador-podio-item small { margin-top: 0.45rem; color: var(--color-texto-suave); }
+
+.comparador-restantes > p {
+  margin: 1.5rem 0 0.75rem;
+  color: var(--color-texto-suave);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.comparador-restantes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.comparador-restante-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: center;
+  border-radius: 0.875rem;
+  background: #f5faf8;
+  padding: 0.9rem;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.comparador-restante-item:hover { transform: translateY(-0.2rem); box-shadow: var(--sombra-tarjeta); }
+.comparador-restante-item > span { color: var(--color-texto-suave); font-size: 1.125rem; font-weight: 700; }
+.comparador-restante-item h3 { margin: 0; color: var(--color-principal-oscuro); font-size: 0.9rem; }
+.comparador-restante-item strong { display: block; margin-top: 0.15rem; color: var(--color-principal); }
+.comparador-restante-item small { display: block; margin-top: 0.2rem; color: var(--color-texto-suave); }
+
+.comparador-resumen-ahorro {
+  margin: 1.25rem 0 0;
+  border-radius: 0.875rem;
+  background: #fff1ec;
+  color: #994133;
+  padding: 0.9rem 1rem;
+}
+
+/* Resumen compacto de la lista actual del comparador. */
+.lista-contador {
+  border-radius: 9999px;
+  background: #e4f5ee;
+  padding: 0.45rem 0.75rem;
+  color: var(--color-principal-oscuro);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.lista-resumen {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.8rem;
+  align-items: center;
+  border-radius: 1rem;
+  background: #e8f6f1;
+  padding: 0.9rem 1rem;
+}
+
+.lista-cesta {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: 9999px;
+  background: white;
+  font-size: 1.25rem;
+}
+
+.lista-resumen strong { display: block; color: var(--color-principal-oscuro); }
+.lista-resumen span { color: var(--color-texto-suave); font-size: 0.85rem; }
+.lista-numero { color: var(--color-principal) !important; font-size: 1.75rem; }
+
+.lista-vista-previa {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.lista-avatares { display: flex; align-items: center; padding-left: 0.45rem; }
+
+.lista-avatar {
+  display: grid;
+  width: 2.15rem;
+  height: 2.15rem;
+  margin-left: -0.45rem;
+  place-items: center;
+  border: 2px solid white;
+  border-radius: 9999px;
+  background: #d8efe8;
+  color: var(--color-principal-oscuro);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.lista-avatar-mas { background: var(--color-principal); color: white; }
+.lista-vista-texto { margin: 0; color: var(--color-texto-suave); font-size: 0.85rem; line-height: 1.4; }
+.lista-vista-texto strong { color: var(--color-texto); }
+
+@media (max-width: 640px) {
+  .comparador-podio { gap: 0.5rem; min-height: 14rem; }
+  .comparador-podio-item { min-height: 7rem; padding: 0.75rem 0.25rem; }
+  .comparador-podio-puesto-1 { min-height: 11.5rem; }
+  .comparador-podio-puesto-2 { min-height: 9.5rem; }
+  .comparador-podio-puesto-3 { min-height: 8rem; }
+  .comparador-podio-item h3 { font-size: 0.82rem; }
+  .comparador-podio-item strong { font-size: 0.9rem; }
+  .comparador-podio-item small { font-size: 0.7rem; }
+  .comparador-restantes-grid { grid-template-columns: 1fr; }
+}

@@ -9,17 +9,37 @@
     </header>
 
     <section class="relative mt-10 overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <!-- Dibujo decorativo -->
-        <div
-          class="pointer-events-none absolute -bottom-6 -right-4 z-0 text-8xl opacity-10"
-          aria-hidden="true">
-          🧺 🥕
+      <!-- Dibujo decorativo de fondo para la tarjeta de la cesta. -->
+      <div class="pointer-events-none absolute -bottom-6 -right-4 z-0 text-8xl opacity-10" aria-hidden="true">🧺 🥕</div>
+
+      <div class="relative z-10 flex items-center justify-between border-b border-[var(--color-borde)] px-6 py-5">
+        <div>
+          <h2 class="text-xl font-bold text-[var(--color-texto)]">Tu lista actual</h2>
+          <p class="mt-1 text-sm text-[var(--color-texto-suave)]">Lista preparada para comparar</p>
         </div>
-      <div class="relative z-10 flex flex-col gap-4 border-b border-[var(--color-borde)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-        <div><h2 class="text-xl font-bold text-[var(--color-texto)]">Tu lista actual</h2><p class="mt-1 text-sm text-[var(--color-texto-suave)]">{{ comparador.productos.length }} productos seleccionados</p></div>
-        <p *ngIf="comparador.supermercadoMasBarato" class="rounded-full bg-[#e4f5ee] px-4 py-2 text-sm font-bold text-[var(--color-principal-oscuro)]">Mejor opción: {{ comparador.supermercadoMasBarato }} · {{ comparador.totalMasBajo | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</p>
+        <span class="lista-contador">{{ comparador.productos.length }} productos</span>
       </div>
-      <div *ngIf="comparador.productos.length > 0; else comparadorVacio" class=" relative z-10 flex flex-wrap gap-3 px-6 py-5"><span *ngFor="let producto of comparador.productos" class="rounded-full bg-[#f2faf7] px-4 py-2 font-semibold text-[var(--color-texto)]">{{ producto.nombre }}</span></div>
+
+      <div *ngIf="comparador.productos.length > 0; else comparadorVacio" class="relative z-10 px-6 py-5">
+        <div class="lista-resumen">
+          <span class="lista-cesta" aria-hidden="true">🧺</span>
+          <div>
+            <strong>Cesta lista para comparar</strong>
+            <span>{{ comparador.productos.length }} productos seleccionados</span>
+          </div>
+          <strong class="lista-numero">{{ comparador.productos.length }}</strong>
+        </div>
+
+        <div class="lista-vista-previa">
+          <div class="lista-avatares" aria-label="Vista previa de los productos de la lista">
+            <span *ngFor="let producto of comparador.productos | slice:0:4" class="lista-avatar" [attr.title]="producto.nombre">
+              {{ obtenerIconoProducto(producto.nombre) }}
+            </span>
+            <span *ngIf="comparador.productos.length > 4" class="lista-avatar lista-avatar-mas">+{{ comparador.productos.length - 4 }}</span>
+          </div>
+          <p class="lista-vista-texto"><strong>Productos seleccionados</strong><br>Listos para comparar precios.</p>
+        </div>
+      </div>
       <ng-template #comparadorVacio><p class="px-6 py-8 text-center text-[var(--color-texto-suave)]">Vuelve al inicio y añade productos para comparar sus precios.</p></ng-template>
     </section>
 
@@ -46,8 +66,35 @@
     <section *ngIf="pestanaActiva === 'supermercados'" class="relative mt-6 overflow-hidden rounded-[var(--radio-tarjeta)] bg-[var(--color-tarjeta)] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <!-- Decoración relacionada con la compra y el ahorro. -->
       <div class="pointer-events-none absolute -bottom-6 -right-4 z-0 text-8xl opacity-10" aria-hidden="true">🛒 💶</div>
-      <header class="relative z-10 border-b border-[var(--color-borde)] px-6 py-5"><h2 class="text-2xl font-bold text-[var(--color-texto)]">Comparativa por supermercado</h2><p class="mt-1 text-sm text-[var(--color-texto-suave)]">El coste total de tu lista completa en cada supermercado.</p></header>
-      <div *ngIf="comparador.supermercados.length > 0; else tablaVacia" class="relative z-10 space-y-4 px-6 py-5"><article *ngFor="let supermercado of comparador.supermercados" class="rounded-2xl bg-[#f5faf7] px-5 py-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"><div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"><div><h3 class="text-lg font-bold text-[var(--color-texto)]">{{ supermercado }}</h3><p class="text-sm text-[var(--color-texto-suave)]">Precio total de tu lista</p></div><p class="text-2xl font-extrabold text-[var(--color-principal)]">{{ comparador.totalesPorSupermercado[supermercado] | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</p></div><div class="mt-4 h-3 overflow-hidden rounded-full bg-[#dfeae8]"><div class="h-full rounded-full bg-[var(--color-principal)] transition-all duration-500" [style.width.%]="getPorcentajeTotal(supermercado)"></div></div><p class="mt-3 text-sm text-[var(--color-texto-suave)]">Ahorro estimado: <span class="font-bold text-[var(--color-principal)]">{{ getAhorro(supermercado) | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</span></p></article></div>
+      <header class="relative z-10 flex flex-col gap-3 border-b border-[var(--color-borde)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <div><h2 class="text-2xl font-bold text-[var(--color-texto)]">Tu podio de ahorro</h2><p class="mt-1 text-sm text-[var(--color-texto-suave)]">Las tres mejores opciones destacan; las demás siguen visibles sin llenar la pantalla.</p></div>
+        <p *ngIf="comparador.supermercadoMasBarato" class="rounded-full bg-[#e4f5ee] px-4 py-2 text-sm font-bold text-[var(--color-principal-oscuro)]">Mejor: {{ comparador.supermercadoMasBarato }}</p>
+      </header>
+
+      <div *ngIf="supermercadosOrdenados.length > 0; else tablaVacia" class="relative z-10 px-6 py-6">
+        <!-- El orden visual del podio es segundo, primero y tercero para que el ganador quede en el centro. -->
+        <div class="comparador-podio">
+          <article *ngFor="let supermercado of podioVisual" class="comparador-podio-item" [ngClass]="getClasePodio(supermercado)">
+            <span class="comparador-podio-numero">{{ getPuesto(supermercado) }}</span>
+            <h3>{{ supermercado }}</h3>
+            <strong>{{ comparador.totalesPorSupermercado[supermercado] | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong>
+            <small *ngIf="getPuesto(supermercado) === 1; else diferenciaPrecio">Mejor opción</small>
+            <ng-template #diferenciaPrecio><small>+{{ getDiferencia(supermercado) | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</small></ng-template>
+          </article>
+        </div>
+
+        <div *ngIf="supermercadosRestantes.length > 0" class="comparador-restantes">
+          <p>También comparados</p>
+          <div class="comparador-restantes-grid">
+            <article *ngFor="let supermercado of supermercadosRestantes" class="comparador-restante-item">
+              <span>{{ getPuesto(supermercado) }}</span>
+              <div><h3>{{ supermercado }}</h3><strong>{{ comparador.totalesPorSupermercado[supermercado] | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong><small>+{{ getDiferencia(supermercado) | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</small></div>
+            </article>
+          </div>
+        </div>
+
+        <p *ngIf="comparador.supermercadoMasBarato" class="comparador-resumen-ahorro">Elegir {{ comparador.supermercadoMasBarato }} te permite ahorrar <strong>{{ (comparador.totalMasAlto - comparador.totalMasBajo) | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong> frente a la opción más cara.</p>
+      </div>
     </section>
     <ng-template #tablaVacia><p class="px-6 py-10 text-center text-[var(--color-texto-suave)]">Añade productos desde el inicio para ver esta comparación.</p></ng-template>
   </div>
