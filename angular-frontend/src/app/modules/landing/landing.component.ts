@@ -17,6 +17,8 @@ import { ComparadorService, DatosComparador } from '../services/comparador.servi
 })
 export class LandingComponent implements OnInit, OnDestroy {
   datos: DatosComparador | null = null;
+  // Controla si el panel lateral de edición de la cesta está visible.
+  panelCestaAbierto = false;
   private sub!: Subscription;
 
   constructor(
@@ -35,4 +37,15 @@ export class LandingComponent implements OnInit, OnDestroy {
   quitarProducto(id: number): void {
     this.seleccionService.quitarId(id);
   }
+
+  // Muestra el panel lateral de edición.
+  abrirPanelCesta(): void {
+    this.panelCestaAbierto = true;
+  }
+
+  // Oculta el panel lateral de edición.
+  cerrarPanelCesta(): void {
+    this.panelCestaAbierto = false;
+  }
+
 }

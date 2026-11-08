@@ -33,7 +33,9 @@
 
         <div class="relative flex items-center justify-between">
           <p class="text-sm font-bold uppercase tracking-[0.12em] text-[#c8efec]">🧺 Tu lista · {{ comparador.productos.length }} productos</p>
-          <a href="#buscador" class="text-sm font-bold text-white underline-offset-4 hover:underline">Editar</a>
+          <button type="button"(click)="abrirPanelCesta()"class="text-sm font-bold text-white underline-offset-4 hover:underline">
+            Editar cesta
+          </button>
         </div>
 
         <ng-container *ngIf="comparador.supermercadoMasBarato; else resumenVacio">
@@ -44,7 +46,6 @@
             <li *ngFor="let producto of comparador.productosElegidos" class="flex items-center gap-3 rounded-2xl bg-white/10 px-4 py-3 backdrop-blur-sm">
               <span class="min-w-0 flex-1 truncate font-semibold">{{ producto.nombre }}</span>
               <strong>{{ producto.precioMinimo | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</strong>
-              <button type="button" (click)="quitarProducto(producto.id)" class="text-lg text-[#c8efec] transition hover:text-white" [attr.aria-label]="'Quitar ' + producto.nombre + ' de la lista'">×</button>
             </li>
           </ul>
 
@@ -87,6 +88,117 @@
     </div>
   </section>
 </main>
+
+
+<!-- PANEL LATERAL: edición de la cesta -->
+<div *ngIf="panelCestaAbierto" class="fixed inset-0 z-[60]">
+  <!-- Fondo oscuro: al pulsarlo, se cierra el panel -->
+  <button
+    type="button"
+    (click)="cerrarPanelCesta()"
+    class="absolute inset-0 h-full w-full bg-slate-950/35 backdrop-blur-sm"
+    aria-label="Cerrar el panel de edición de la cesta"
+  ></button>
+
+  <!-- Panel que aparece desde la derecha -->
+  <aside
+    class="relative z-10 ml-auto flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="titulo-panel-cesta"
+  >
+    <!-- Cabecera del panel -->
+    <header class="flex items-center justify-between border-b border-[var(--color-borde)] px-6 py-5">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.14em] text-[var(--color-principal)]">
+          Tu compra
+        </p>
+        <h2 id="titulo-panel-cesta" class="mt-1 text-2xl font-extrabold text-[var(--color-principal-oscuro)]">
+          Editar cesta
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        (click)="cerrarPanelCesta()"
+        class="grid h-10 w-10 place-items-center rounded-full bg-[#edf8f5] text-2xl text-[var(--color-principal-oscuro)] transition hover:bg-[#dff3ed]"
+        aria-label="Cerrar la cesta"
+      >
+        ×
+      </button>
+    </header>
+
+    <!-- Contenido variable de la cesta -->
+    <div class="flex-1 overflow-y-auto p-6">
+      <ng-container *ngIf="datos as comparador; else datosNoDisponibles">
+        <p class="mb-5 text-sm text-[var(--color-texto-suave)]">
+          {{ comparador.productos.length }} productos seleccionados
+        </p>
+
+        <ul *ngIf="comparador.productos.length > 0; else cestaVacia" class="space-y-3">
+          <li
+            *ngFor="let producto of comparador.productos"
+            class="flex items-center gap-3 rounded-2xl border border-[var(--color-borde)] bg-[#f8fbfa] px-4 py-3"
+          >
+            <span class="min-w-0 flex-1 truncate font-bold text-[var(--color-texto)]">
+              {{ producto.nombre }}
+            </span>
+
+            <button
+              type="button"
+              (click)="quitarProducto(producto.id)"
+             class="grid h-8 w-8 place-items-center rounded-full text-[var(--color-acento)] transition hover:bg-[#ffe9e4] hover:text-[#d94d3e]"
+              [attr.aria-label]="'Quitar ' + producto.nombre + ' de la cesta'"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-5 w-5"
+                aria-hidden="true"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M4 7l16 0"></path>
+                <path d="M10 11l0 6"></path>
+                <path d="M14 11l0 6"></path>
+                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+              </svg>
+            </button>
+          </li>
+        </ul>
+
+        <ng-template #cestaVacia>
+          <p class="rounded-2xl bg-[#edf8f5] p-5 text-center text-[var(--color-texto-suave)]">
+            Tu cesta está vacía. Añade productos para empezar a comparar.
+          </p>
+        </ng-template>
+      </ng-container>
+
+      <ng-template #datosNoDisponibles>
+        <p class="text-center text-[var(--color-texto-suave)]">
+          Estamos preparando tu cesta…
+        </p>
+      </ng-template>
+    </div>
+
+    <!-- Acción final del panel -->
+    <footer class="border-t border-[var(--color-borde)] p-6">
+      <a
+        href="#"
+        (click)="cerrarPanelCesta()"
+        class="flex w-full items-center justify-center rounded-full bg-[var(--color-acento)] px-5 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e95f50]"
+      >
+        Seguir añadiendo productos
+      </a>
+    </footer>
+  </aside>
+</div>
+
 
 <app-toast></app-toast>
 <app-footer></app-footer>
