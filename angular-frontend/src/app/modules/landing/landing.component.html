@@ -96,13 +96,16 @@
   <button
     type="button"
     (click)="cerrarPanelCesta()"
-    class="absolute inset-0 h-full w-full bg-slate-950/35 backdrop-blur-sm animar-fondo-cesta"
+    class="absolute inset-0 h-full w-full bg-slate-950/35 backdrop-blur-sm"
+    [ngClass]="cerrandoPanelCesta ? 'animar-fondo-cesta-salida' : 'animar-fondo-cesta'"
     aria-label="Cerrar el panel de edición de la cesta"
   ></button>
 
   <!-- Panel que aparece desde la derecha -->
   <aside
-    class="relative z-10 ml-auto flex h-full w-full max-w-md flex-col bg-white shadow-2xl animar-panel-cesta"
+    class="relative z-10 ml-auto flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
+    [ngClass]="cerrandoPanelCesta ? 'animar-panel-cesta-salida' : 'animar-panel-cesta'"
+    (animationend)="terminarCierrePanel()"
     role="dialog"
     aria-modal="true"
     aria-labelledby="titulo-panel-cesta"

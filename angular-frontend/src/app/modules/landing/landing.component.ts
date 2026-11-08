@@ -19,6 +19,8 @@ export class LandingComponent implements OnInit, OnDestroy {
   datos: DatosComparador | null = null;
   // Controla si el panel lateral de edición de la cesta está visible.
   panelCestaAbierto = false;
+  // Indica que el panel sigue visible, pero está reproduciendo su animación de salida.
+  cerrandoPanelCesta = false;
   private sub!: Subscription;
 
   constructor(
@@ -38,14 +40,27 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.seleccionService.quitarId(id);
   }
 
-  // Muestra el panel lateral de edición.
+  // Muestra el panel y prepara su animación de entrada.
   abrirPanelCesta(): void {
-    this.panelCestaAbierto = true;
+      this.cerrandoPanelCesta = false;
+     this.panelCestaAbierto = true;
+    }
+
+  // Inicia la animación de salida, pero todavía no elimina el panel.
+  cerrarPanelCesta(): void {
+    this.cerrandoPanelCesta = true;
   }
 
-  // Oculta el panel lateral de edición.
-  cerrarPanelCesta(): void {
+  // Se ejecutará al terminar la animación de salida.
+  terminarCierrePanel(): void {
+    // Si ha terminado la animación de entrada, no hacemos nada.
+    if (!this.cerrandoPanelCesta) {
+      return;
+    }
+
+    // Cuando termina la salida, Angular ya puede eliminar el panel.
     this.panelCestaAbierto = false;
+    this.cerrandoPanelCesta = false;
   }
 
 }
