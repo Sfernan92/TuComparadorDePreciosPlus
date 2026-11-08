@@ -353,3 +353,68 @@ body {
   .comparador-podio-item small { font-size: 0.7rem; }
   .comparador-restantes-grid { grid-template-columns: 1fr; }
 }
+
+/* Animaciones de entrada del panel lateral de la cesta. */
+@keyframes aparecer-fondo-cesta {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes deslizar-panel-cesta {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animar-fondo-cesta {
+  animation: aparecer-fondo-cesta 180ms ease-out both;
+}
+
+.animar-panel-cesta {
+  animation: deslizar-panel-cesta 320ms ease-out both;
+}
+
+@keyframes desaparecer-fondo-cesta {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes deslizar-panel-cesta-salida {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.animar-fondo-cesta-salida {
+  animation: desaparecer-fondo-cesta 220ms ease-in both;
+}
+
+.animar-panel-cesta-salida {
+  animation: deslizar-panel-cesta-salida 280ms ease-in both;
+}
+
+/* Respeta a las personas que han desactivado animaciones en su dispositivo. */
+@media (prefers-reduced-motion: reduce) {
+  .animar-fondo-cesta,
+  .animar-panel-cesta {
+    animation: none;
+  }
+}
