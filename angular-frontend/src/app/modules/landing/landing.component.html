@@ -33,7 +33,10 @@
 
         <div class="relative flex items-center justify-between">
           <p class="text-sm font-bold uppercase tracking-[0.12em] text-[#c8efec]">🧺 Tu lista · {{ comparador.productos.length }} productos</p>
-          <button type="button"(click)="abrirPanelCesta()"class="text-sm font-bold text-white underline-offset-4 hover:underline">
+          <button
+            type="button"
+            (click)="abrirPanelCesta()"
+            class="rounded-full bg-[var(--color-acento)] px-4 py-2 text-sm font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#e95f50]">
             Editar cesta
           </button>
         </div>
