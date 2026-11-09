@@ -1,6 +1,13 @@
 
 <!-- Footer -->
-<footer class="w-full bg-[#006D77] text-white p-4">
+<footer class="relative mt-12 w-full bg-[#006D77] px-4 py-6 text-white">
+  <!-- Ola superior: forma parte del propio footer y evita un borde recto. -->
+  <div class="pointer-events-none absolute -top-12 left-0 h-12 w-full overflow-hidden" aria-hidden="true">
+    <svg class="block h-full w-full" viewBox="0 0 1440 160" preserveAspectRatio="none">
+      <path fill="#006D77" d="M0 72C160 20 292 148 500 105C680 68 760 4 952 62C1150 122 1300 42 1440 15V160H0Z"></path>
+    </svg>
+  </div>
+
   <!-- Contenido principal del footer -->
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
     <!-- DonTacaño.com en la columna 3 (posición) -->
