@@ -106,15 +106,22 @@
 
   <!-- Panel que aparece desde la derecha -->
   <aside
-    class="relative z-10 ml-auto flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
+    class="relative z-10 ml-auto flex h-full w-full max-w-md flex-col overflow-hidden bg-white shadow-2xl"
     [ngClass]="cerrandoPanelCesta ? 'animar-panel-cesta-salida' : 'animar-panel-cesta'"
     (animationend)="terminarCierrePanel()"
     role="dialog"
     aria-modal="true"
     aria-labelledby="titulo-panel-cesta"
   >
+    <img
+      src="/images/carrito-cesta.png"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none absolute -bottom-10 -right-20 z-0 w-[30rem] max-w-none opacity-20"
+    />
+
     <!-- Cabecera del panel -->
-    <header class="flex items-center justify-between border-b border-[var(--color-borde)] px-6 py-5">
+    <header class="relative z-10 flex items-center justify-between border-b border-[var(--color-borde)] px-6 py-5">
       <div>
         <p class="text-sm font-bold uppercase tracking-[0.14em] text-[var(--color-principal)]">
           Tu compra
@@ -135,7 +142,7 @@
     </header>
 
     <!-- Contenido variable de la cesta -->
-    <div class="flex-1 overflow-y-auto p-6">
+    <div class="relative z-10 flex-1 overflow-y-auto p-6">
       <ng-container *ngIf="datos as comparador; else datosNoDisponibles">
         <p class="mb-5 text-sm text-[var(--color-texto-suave)]">
           {{ comparador.productos.length }} productos seleccionados
@@ -193,7 +200,7 @@
     </div>
 
     <!-- Acción final del panel -->
-    <footer class="border-t border-[var(--color-borde)] p-6">
+    <footer class="relative z-10 border-t border-[var(--color-borde)] p-6">
       <a
         href="#"
         (click)="cerrarPanelCesta()"
