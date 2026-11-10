@@ -424,3 +424,22 @@ body {
     animation: none;
   }
 }
+
+/* Enlace del navbar: permite colocar el subrayado bajo la página activa. */
+.enlace-nav {
+  position: relative;
+  padding-bottom: 0.65rem;
+}
+
+/* Angular añade esta clase solo al enlace de la ruta actual. */
+.enlace-nav-activo::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background-color: var(--color-acento);
+  transform: rotate(-0.8deg);
+}
