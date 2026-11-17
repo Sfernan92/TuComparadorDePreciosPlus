@@ -40,6 +40,16 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.seleccionService.quitarId(id);
   }
 
+  // Aumenta una unidad del producto pulsado en el panel lateral.
+  aumentarCantidad(id: number): void {
+    this.seleccionService.aumentarCantidad(id);
+  }
+
+  // Reduce una unidad, sin bajar de una porque esa regla vive en el servicio.
+  disminuirCantidad(id: number): void {
+    this.seleccionService.disminuirCantidad(id);
+  }
+
   // Muestra el panel y prepara su animación de entrada.
   abrirPanelCesta(): void {
       this.cerrandoPanelCesta = false;

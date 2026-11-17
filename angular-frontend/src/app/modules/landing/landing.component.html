@@ -178,6 +178,34 @@
               {{ producto.nombre }}
             </span>
 
+            <!-- Control de unidades: modifica la cantidad temporal de este producto. -->
+            <div
+              class="flex shrink-0 items-center rounded-full border border-[#b8d7d0] bg-white p-1 text-[var(--color-principal-oscuro)]"
+              [attr.aria-label]="'Cantidad de ' + producto.nombre"
+            >
+              <button
+                type="button"
+                (click)="disminuirCantidad(producto.id)"
+                class="grid h-7 w-7 place-items-center rounded-full text-lg font-bold transition hover:bg-[#e5f5f0]"
+                [attr.aria-label]="'Restar una unidad de ' + producto.nombre"
+              >
+                −
+              </button>
+
+              <span class="min-w-12 px-1 text-center text-sm font-extrabold">
+                {{ producto.cantidad }} ud.
+              </span>
+
+              <button
+                type="button"
+                (click)="aumentarCantidad(producto.id)"
+                class="grid h-7 w-7 place-items-center rounded-full text-lg font-bold transition hover:bg-[#e5f5f0]"
+                [attr.aria-label]="'Sumar una unidad de ' + producto.nombre"
+              >
+                +
+              </button>
+            </div>
+
             <button
               type="button"
               (click)="quitarProducto(producto.id)"
