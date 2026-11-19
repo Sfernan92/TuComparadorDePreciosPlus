@@ -1,6 +1,17 @@
 # 💰 DonTacaño.com — Comparador de precios
 
-DonTacaño.com es una aplicación web para crear una cesta de compra y comparar sus precios entre distintos supermercados. Su objetivo es ayudar al usuario a identificar la opción más económica antes de realizar la compra.
+<p align="center">
+  <strong>Proyecto en construcción · Desarrollo Full Stack · DonTacaño.com</strong>
+</p>
+
+<p align="center">
+  DonTacaño.com es una aplicación web para crear una cesta de compra y comparar sus precios entre distintos supermercados. Su objetivo es ayudar al usuario a identificar la opción más económica antes de realizar la compra.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/estado-en%20construcci%C3%B3n-f59e0b?style=for-the-badge" alt="Proyecto en construcción">
+  <img src="https://img.shields.io/badge/desarrollo-individual-2563eb?style=for-the-badge" alt="Desarrollo individual">
+</p>
 
 ## 🧠 Idea principal
 
@@ -57,6 +68,25 @@ Panel privado para consultar un resumen y gestionar categorías, supermercados, 
 - Contenedores: Docker Compose.
 - Gestión visual de la base de datos: DBeaver.
 
+### 🎨 Frontend
+
+![Angular](https://img.shields.io/badge/Angular-19-DD0031?logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![RxJS](https://img.shields.io/badge/RxJS-EB2C5C?logo=reactivex&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+
+### ⚙️ Backend
+
+![PHP](https://img.shields.io/badge/PHP-8.1%2B-777BB4?logo=php&logoColor=white)
+![Symfony](https://img.shields.io/badge/Symfony-6.4-000000?logo=symfony&logoColor=white)
+![Doctrine](https://img.shields.io/badge/Doctrine_ORM-FC6A31?logo=doctrine&logoColor=white)
+
+### 🗄️ Datos, servicios e infraestructura
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13-4169E1?logo=postgresql&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white)
+![DBeaver](https://img.shields.io/badge/DBeaver-382923?logo=dbeaver&logoColor=white)
+
 ## 🎨 Estado del frontend
 
 El frontend se encuentra actualmente en proceso de diseño y mejora visual.
@@ -104,3 +134,9 @@ Una vez levantados los servicios:
 - Mostrar gráficas de evolución de precios.
 - Incorporar pruebas unitarias y de integración.
 - Mejorar la adaptación a dispositivos móviles.
+
+---
+
+<p align="center">
+  <strong>Proyecto en producción y desarrollo continuo. 💰</strong>
+</p>
